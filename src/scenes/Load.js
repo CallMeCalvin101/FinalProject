@@ -4,7 +4,9 @@ class Load extends Phaser.Scene {
     }
 
     preload() {
-
+        this.load.path = './assets/';
+        // Loads Graphic Assets
+        this.load.image('player-head', 'Robot-Head.png');
     }
 
     create() {
