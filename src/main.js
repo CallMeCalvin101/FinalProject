@@ -25,3 +25,6 @@ let game = new Phaser.Game(config);
 
 // Keyboard Inputs
 let keyW, keyA, keyS, keyD;
+
+// Game Pointer
+let gamePointer;
