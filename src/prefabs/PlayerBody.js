@@ -1,16 +1,16 @@
-class Player extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, texture = 'player-head') {
-        super(scene, x, y, texture, 0);
+class PlayerBody extends Player {
+    constructor(scene, x, y) {
+        super(scene, x, y, 'player-body');
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
         // Set Properties
-        this.walkAcceleration = 600;
-        this.maxSpeed = 300;
+        this.walkAcceleration = 900;
+        this.maxSpeed = 350;
         this.setMaxVelocity(this.maxSpeed);
-        this.drag = 0.25;
+        this.drag = 0.01;
         this.dash = new Phaser.Math.Vector2();
-        this.dashSpeed = 700;
+        this.dashSpeed = 500;
         this.isAttack = false;
         this.attackDuration = 0;
         this.attackDuration_MAX = 50;
@@ -38,10 +38,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         if (keyA.isDown) {
             this.setAccelerationX(-this.walkAcceleration);
-            this.setRotation(this.rotation - (Math.PI/180))
         } else if (keyD.isDown) {
             this.setAccelerationX(this.walkAcceleration);
-            this.setRotation(this.rotation + (Math.PI/180))
         }
 
         if (keyW.isUp && keyS.isUp) {
