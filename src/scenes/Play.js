@@ -4,7 +4,11 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
+        const tileset = map.addTilesetImage("tiles1","tiles");
+        var layer = map.createLayer("toplayer", tileset,0,0);
         
+
 
         // Define Keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -34,8 +38,7 @@ class Play extends Phaser.Scene {
 
         this.checkUpgrade();
         
-        // load back ground
-        this.background = this.add.tileSprite (0,0,2000,2000,'map').setOrigin(0);
+
         // camera
         const camera = this.cameras.main;
         camera.startFollow(this.player);
