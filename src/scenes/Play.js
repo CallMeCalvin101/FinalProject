@@ -4,10 +4,20 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        // tilemap and collision
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
         const tileset = map.addTilesetImage("tiles1","tiles");
-        var layer = map.createLayer("toplayer", tileset,0,0);
-        
+        this.layer = map.createLayer("toplayer", tileset,0, 0);
+        const wallLayer = map.createLayer("wall", tileset, 0, 0);
+        //this.wallLayer.setCollisionByProperty({collides: true });
+        //this botom 5 lines have some problem that causes the player unable to move
+        // this.physics.add.collider(this.player, wallLayer); 
+        // 0,2,9,11,18,20 are the IDs for the walls.
+        //wallLayer.setCollisionBetween(0,2);
+        //wallLayer.setCollisionBetween(9);
+        //wallLayer.setCollisionBetween(11);
+        // wallLayer.setCollisionBetween(18,20);
+
 
 
         // Define Keys
@@ -28,7 +38,7 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         });
 
-        this.upgradeBody = new Upgrade(this, game.config.width* 3/4, game.config.height/2, 'upgrade:body', "body");
+        this.upgradeBody = new Upgrade(this, game.config.width* 9/8, game.config.height*17/9, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
         // Adds Pointer Down Event for Player Attacks
