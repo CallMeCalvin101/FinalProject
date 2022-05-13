@@ -4,6 +4,8 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        
+
         // Define Keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -14,7 +16,7 @@ class Play extends Phaser.Scene {
         gamePointer = this.input.activePointer;
 
         // Temp Background
-        this.add.rectangle(0, 0, game.config.width, game.config.height, 0xf2f2f2).setOrigin(0);
+        //this.add.rectangle(0, 0, game.config.width, game.config.height, 0xf2f2f2).setOrigin(0);
         this.player = new Player(this, game.config.width * 1/4, game.config.height/2);
 
         // Adds group to store all upgrades
@@ -31,7 +33,15 @@ class Play extends Phaser.Scene {
         }, this);
 
         this.checkUpgrade();
+        
+        // load back ground
+        this.background = this.add.tileSprite (0,0,2000,2000,'map').setOrigin(0);
+        // camera
+        const camera = this.cameras.main;
+        camera.startFollow(this.player);
+        
     }
+
 
     update() {
         this.player.update();

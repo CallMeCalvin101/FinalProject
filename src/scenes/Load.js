@@ -9,6 +9,7 @@ class Load extends Phaser.Scene {
         this.load.image('player-head', 'Robot-Head.png');
         this.load.image('player-body', 'Robot-Body.png');
         this.load.image('upgrade:body', 'Upgrade-Body.png');
+        this.load.image('map', 'map.png');
     }
 
     create() {
