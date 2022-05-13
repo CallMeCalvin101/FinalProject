@@ -7,12 +7,8 @@ class Load extends Phaser.Scene {
         this.load.path = './assets/';
         // Loads Graphic Assets
         this.load.image('player-head', 'Robot-Head.png');
-<<<<<<< HEAD
         this.load.image('player-body', 'Robot-Body.png');
         this.load.image('upgrade:body', 'Upgrade-Body.png');
-=======
-        //
->>>>>>> 4c621c06098c63f7ccb9fcbdcaefcfa1b89fb531
     }
 
     create() {
