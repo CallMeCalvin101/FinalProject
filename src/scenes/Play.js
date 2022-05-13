@@ -18,9 +18,8 @@ class Play extends Phaser.Scene {
         this.player = new Player(this, game.config.width/2, game.config.height/2);
 
         // Adds Pointer Down Event for Player Attacks
-        this.input.on('pointerdown', function(gamePointer) {
-            //this.player.attack(gamePointer);
-            this.physics.moveToObject(this.player, gamePointer, 500);
+        this.input.on('pointerdown', () => {
+            this.player.attack(gamePointer.x, gamePointer.y);
         }, this);
     }
 
