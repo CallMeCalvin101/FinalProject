@@ -9,3 +9,4 @@ class Map extends Phaser.Scene {
     update() {
         
     }
+}
