@@ -43,16 +43,16 @@ class Play extends Phaser.Scene {
 
         // Adds Pointer Down Event for Player Attacks
         this.input.on('pointerdown', () => {
-            this.player.attack(gamePointer.x, gamePointer.y);
+            this.player.attack(gamePointer.worldX, gamePointer.worldY);
         }, this);
 
         this.checkUpgrade();
         
 
         // camera
-        const camera = this.cameras.main;
-        camera.startFollow(this.player);
-        
+        this.camera = this.cameras.main;
+        this.camera.startFollow(this.player);
+        this.camera.setBounds(0, 0, 3000, 3000);
     }
 
 
@@ -74,6 +74,7 @@ class Play extends Phaser.Scene {
             this.spawnY = this.player.y;
             this.player.destroy();
             this.player = new PlayerBody(this, this.spawnX, this.spawnY);
+            this.camera.startFollow(this.player);
             elem.destroy();
         }
     }
