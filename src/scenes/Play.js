@@ -3,6 +3,13 @@ class Play extends Phaser.Scene {
         super('playScene');
     }
 
+    preload(){
+        this.load.spritesheet('vertroll', './assets/vertroll.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 8}); 
+        this.load.spritesheet('vertroll2', './assets/vertroll2.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 8}); 
+        this.load.spritesheet('horizroll', './assets/horizontalroll.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 8}); 
+        this.load.audio('sound', './assets/sound.wav');      
+
+    }
     create() {
         // tilemap and collision
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
@@ -17,6 +24,29 @@ class Play extends Phaser.Scene {
         //wallLayer.setCollisionBetween(9);
         //wallLayer.setCollisionBetween(11);
         // wallLayer.setCollisionBetween(18,20);
+
+
+        this.anims.create({
+            key: 'rollup',
+            frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 8, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'sideroll',
+            frames: this.anims.generateFrameNumbers('horizroll', {start: 0, end: 8, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'rolldown',
+            frames: this.anims.generateFrameNumbers('vertroll2', {start: 0, end: 8, first: 0}),
+            frameRate: 8,
+            repeat: -1
+        });
+
 
 
 

@@ -18,7 +18,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setDamping(true);
     }
 
+    preload(){
+        this.load.audio('sound', './assets/sound.wav');      
+    }
+
     update() {
+
         // Controls Attack Logic
         if (this.isAttack == true && this.attackDuration > 0) {
             this.attackDuration -= 1;
@@ -28,20 +33,42 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.isAttack = false
             this.setMaxVelocity(this.maxSpeed);
         }
-
+        
         // Controls Player Movement
         if (keyW.isDown) {
             this.setAccelerationY(-this.walkAcceleration);
+            //this if/else chooses which animation to play based on if player is upside down or not
+            if((-1.5 < this.rotation) && (this.rotation < 1.5)){ 
+                this.play('rollup', true);
+            }
+            else{this.play('rolldown', true);}
+    
         } else if (keyS.isDown) {
             this.setAccelerationY(this.walkAcceleration);
+            //this if/else chooses which animation to play based on if player is upside down or not
+            if((-1.5 < this.rotation) && (this.rotation < 1.5)){
+                this.play('rolldown', true);
+            }
+            else{this.play('rollup', true);}
+
+            // this.play('rolldown', true);
+
+        } else {
+            //both uprolling and downrolling animation are stopped 
+            //if key is W or S key is not being pressed down
+            this.play('rollup', false);    
+            this.play('rolldown', false); 
         }
+
 
         if (keyA.isDown) {
             this.setAccelerationX(-this.walkAcceleration);
-            this.setRotation(this.rotation - (Math.PI/180))
+            this.setRotation(this.rotation - (5.5*(Math.PI/180)));
+
+
         } else if (keyD.isDown) {
             this.setAccelerationX(this.walkAcceleration);
-            this.setRotation(this.rotation + (Math.PI/180))
+            this.setRotation(this.rotation + (5.5*(Math.PI/180)));
         }
 
         if (keyW.isUp && keyS.isUp) {
@@ -59,6 +86,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if (this.isAttack != false) {
             return;
         }
+        // this.sound.play('sound');
         // Grabs the angle by calculating this dist to x, y
         this.dirX = 1;
         this.dx = px - this.x;
