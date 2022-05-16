@@ -16,6 +16,7 @@ class Play extends Phaser.Scene {
         const tileset = map.addTilesetImage("tiles1","tiles");
         this.layer = map.createStaticLayer("toplayer", tileset,0, 0);
         this.wallLayer = map.createStaticLayer("wall", tileset, 0, 0);
+        this.objectLayer = map.createStaticLayer("object",tileset, 0,0);
         this.wallLayer.setCollisionByProperty({collides: true });
         //this botom 5 lines have some problem that causes the player unable to move
         //this.physics.add.collider(this.player, wallLayer); 
@@ -32,7 +33,7 @@ class Play extends Phaser.Scene {
             collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
             faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
-
+        
         this.anims.create({
             key: 'rollup',
             frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 8, first: 0}),
@@ -92,6 +93,8 @@ class Play extends Phaser.Scene {
         this.camera = this.cameras.main;
         this.camera.startFollow(this.player);
         this.camera.setBounds(0, 0, 3000, 3000);
+
+         
     }
 
 
