@@ -9,11 +9,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.maxSpeed = 300;
         this.setMaxVelocity(this.maxSpeed);
         this.drag = 0.25;
-        this.dash = new Phaser.Math.Vector2();
         this.dashSpeed = 700;
         this.isAttack = false;
         this.attackDuration = 0;
         this.attackDuration_MAX = 50;
+        this.setBounce(0.5);
         //this.body.setCollideWorldBounds(true);
         this.setDamping(true);
     }
