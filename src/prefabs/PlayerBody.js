@@ -9,11 +9,10 @@ class PlayerBody extends Player {
         this.maxSpeed = 350;
         this.setMaxVelocity(this.maxSpeed);
         this.drag = 0.01;
-        this.dash = new Phaser.Math.Vector2();
         this.dashSpeed = 500;
         this.isAttack = false;
         this.attackDuration = 0;
-        this.attackDuration_MAX = 50;
+        this.attackDuration_MAX = 25;
         //this.body.setCollideWorldBounds(true);
         this.setDamping(true);
     }

@@ -8,7 +8,9 @@ class Load extends Phaser.Scene {
         // Loads Graphic Assets
         this.load.image('player-head', 'Robot-Head.png');
         this.load.image('player-body', 'Robot-Body.png');
+        this.load.image('player-sword', 'Robot-Weapon.png')
         this.load.image('upgrade:body', 'Upgrade-Body.png');
+        this.load.image('indicator', 'Indicator.png');
         //this.load.image('map', 'map.png');
         this.load.image("tiles","tiles.png");
         this.load.tilemapTiledJSON('map',"map1.json")
