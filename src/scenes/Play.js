@@ -92,6 +92,8 @@ class Play extends Phaser.Scene {
         this.camera = this.cameras.main;
         this.camera.startFollow(this.player);
         this.camera.setBounds(0, 0, 3000, 3000);
+
+        this.ind = this.physics.add.image(this, 100, 100, 'indicator', 0);
     }
 
 
