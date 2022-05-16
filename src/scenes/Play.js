@@ -15,8 +15,8 @@ class Play extends Phaser.Scene {
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
         const tileset = map.addTilesetImage("tiles1","tiles");
         this.layer = map.createStaticLayer("toplayer", tileset,0, 0);
-        const wallLayer = map.createStaticLayer("wall", tileset, 0, 0);
-        wallLayer.setCollisionByProperty({collides: true });
+        this.wallLayer = map.createStaticLayer("wall", tileset, 0, 0);
+        this.wallLayer.setCollisionByProperty({collides: true });
         //this botom 5 lines have some problem that causes the player unable to move
         //this.physics.add.collider(this.player, wallLayer); 
         // 0,2,9,11,18,20 are the IDs for the walls.
@@ -27,14 +27,11 @@ class Play extends Phaser.Scene {
         
         //debug the wall to see if it happen 
         const debugGraphics = this.add.graphics().setAlpha(0.75);
-        wallLayer.renderDebug(debugGraphics, {
-        tileColor: null, // Color of non-colliding tiles
-        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        this.wallLayer.renderDebug(debugGraphics, {
+            tileColor: null, // Color of non-colliding tiles
+            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
-
-        //collide against wall
-        this.physics.add.collider(this.player, wallLayer); 
 
         this.anims.create({
             key: 'rollup',
@@ -88,6 +85,8 @@ class Play extends Phaser.Scene {
 
         this.checkUpgrade();
         
+        //collide against wall
+        this.physics.add.collider(this.player, this.wallLayer); 
 
         // camera
         this.camera = this.cameras.main;
@@ -114,8 +113,13 @@ class Play extends Phaser.Scene {
             this.spawnY = this.player.y;
             this.player.destroy();
             this.player = new PlayerBody(this, this.spawnX, this.spawnY);
-            this.camera.startFollow(this.player);
+            this.resetPlayer();
             elem.destroy();
         }
+    }
+
+    resetPlayer() {
+        this.camera.startFollow(this.player);
+        this.physics.add.collider(this.player, this.wallLayer);
     }
 }
