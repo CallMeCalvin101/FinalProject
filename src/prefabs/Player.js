@@ -16,13 +16,20 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setBounce(0.5);
         //this.body.setCollideWorldBounds(true);
         this.setDamping(true);
+        this.isupright = true;
     }
 
     preload(){
-        this.load.audio('sound', './assets/sound.wav');      
+    }
+
+    create(){
     }
 
     update() {
+        //update isupright variable (depends on rotation)
+        if((-1.5 < this.rotation) && (this.rotation < 1.5)){
+            this.isupright = true;
+        } else { this.isupright = false;}
 
         // Controls Attack Logic
         if (this.isAttack == true && this.attackDuration > 0) {
@@ -37,27 +44,48 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // Controls Player Movement
         if (keyW.isDown) {
             this.setAccelerationY(-this.walkAcceleration);
-            //this if/else chooses which animation to play based on if player is upside down or not
+            //if/else chooses which animation to play based on if player is upside down or not
             if((-1.5 < this.rotation) && (this.rotation < 1.5)){ 
-                this.play('rollup', true);
-            }
-            else{this.play('rolldown', true);}
-    
-        } else if (keyS.isDown) {
+                if(!this.anims.isPaused){ //if start of game
+                    this.play('rollup', true)
+                 } else {
+                    this.anims.resume();
+                    if(this.anims.inReverse){this.anims.reverse()}
+                }
+            } else{ //PLAYER IS UPSIDEDOWN, W KEY IS DOWN
+                if(!this.anims.isPaused){
+                    this.playReverse('rollup', true) //if start of game
+                } else { 
+                this.anims.resume();
+                if(!this.anims.inReverse){this.anims.reverse();}
+                }
+        }
+    } else if (keyS.isDown) {
             this.setAccelerationY(this.walkAcceleration);
-            //this if/else chooses which animation to play based on if player is upside down or not
             if((-1.5 < this.rotation) && (this.rotation < 1.5)){
-                this.play('rolldown', true);
-            }
-            else{this.play('rollup', true);}
-
-            // this.play('rolldown', true);
-
+                if(!this.anims.isPaused){
+                    this.playReverse('rollup', true)
+                 } else {
+                    this.anims.resume();
+                    if(!this.anims.inReverse){this.anims.reverse();}
+                 }
+            } else { //PLAYER IS UPSIDEDOWN, S KEY IS DOWN
+                if(!this.anims.isPaused){
+                    this.play('rollup', true) //if start of game
+                } else { 
+                this.anims.resume();
+                if(this.anims.inReverse){this.anims.reverse();}
+                }
+        }
         } else {
             //both uprolling and downrolling animation are stopped 
             //if key is W or S key is not being pressed down
-            this.play('rollup', false);    
-            this.play('rolldown', false); 
+            this.anims.pause();
+            // console.log("currentframe :", this.anims.currentFrame);
+            // this.rollup.paused = true;
+            // var hasAnim = this.anims.exists('rollup');
+            // hasAnim.pause();
+            
         }
 
 
@@ -80,8 +108,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.setAccelerationX(0);
             this.setDragX(this.drag);
         }
-    }
 
+        if (Phaser.Input.Keyboard.JustUp(keyW)) {
+            console.log('w just up')
+        }
+
+    }
     attack(px, py) {
         if (this.isAttack != false) {
             return;
