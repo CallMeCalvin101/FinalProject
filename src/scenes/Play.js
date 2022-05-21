@@ -15,8 +15,10 @@ class Play extends Phaser.Scene {
         const tileset = map.addTilesetImage("tiles1","tiles");
         this.layer = map.createStaticLayer("toplayer", tileset,0, 0);
         this.wallLayer = map.createStaticLayer("wall", tileset, 0, 0);
-        this.objectLayer = map.createStaticLayer("object",tileset, 0,0);
+        this.objectLayer = map.createStaticLayer("jump",tileset, 0,0);
+        this.landLayer = map.createStaticLayer("land",tileset, 0,0)
         this.wallLayer.setCollisionByProperty({collides: true });
+        this.objectLayer.setCollisionByProperty({collides: true });
         //this botom 5 lines have some problem that causes  the player unable to move
         //this.physics.add.collider(this.player, wallLayer); 
         // 0,2,9,11,18,20 are the IDs for the walls.
@@ -85,7 +87,9 @@ class Play extends Phaser.Scene {
         
         //collide against wall
         this.physics.add.collider(this.player, this.wallLayer); 
+        this.physics.add.collider(this.player, this.objectLayer); 
 
+        
         // camera
         this.camera = this.cameras.main;
         this.camera.startFollow(this.player);
@@ -93,6 +97,11 @@ class Play extends Phaser.Scene {
          
         this.ind = this.physics.add.image(this, 100, 100, 'indicator', 0);
         //create groups for wall objects
+
+        //collide the jump tile and set player to 
+        if(this.player.collides.objectLayer){
+            this.player = new Player (this, game.config.width * 1/4, game.config.height/2);
+            }
     }
 
 
