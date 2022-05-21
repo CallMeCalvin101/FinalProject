@@ -32,7 +32,7 @@ class Play extends Phaser.Scene {
             collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
             faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
-        
+
          // create player
          const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
          this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
@@ -86,10 +86,13 @@ class Play extends Phaser.Scene {
         this.checkUpgrade();
         
         //collide against wall
-        
         this.physics.add.collider(this.player, this.wallsLayer); 
         this.physics.add.collider(this.player, this.tpLayer); 
 
+        this.temp = new JumpTile(this, 200, 200, 'upgrade:body', "right");
+        this.physics.add.collider(this.player, this.temp, () => {
+            this.temp.jump(this.player);
+        });
         
         // camera
         this.camera = this.cameras.main;
