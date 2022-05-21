@@ -4,7 +4,7 @@
   <export target="map1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="tiles1" tilewidth="32" tileheight="32" tilecount="81" columns="9">
-  <image source="../../../testing area/assets/tiles.png" width="300" height="300"/>
+  <image source="tiles.png" width="300" height="300"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -132,7 +132,7 @@
   </tile>
  </tileset>
  <tileset firstgid="82" name="tiles1" tilewidth="32" tileheight="32" tilecount="81" columns="9">
-  <image source="../../../testing area/assets/tiles.png" width="300" height="300"/>
+  <image source="tiles.png" width="300" height="300"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -260,7 +260,7 @@
   </tile>
  </tileset>
  <tileset firstgid="163" name="robot" tilewidth="32" tileheight="32" tilecount="1" columns="1">
-  <image source="../../../testing area/assets/Robot-Head.png" width="32" height="32"/>
+  <image source="Robot-Head.png" width="32" height="32"/>
  </tileset>
  <layer id="2" name="floor" width="100" height="100">
   <data encoding="csv">
