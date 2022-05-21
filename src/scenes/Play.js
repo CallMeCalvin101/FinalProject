@@ -32,13 +32,10 @@ class Play extends Phaser.Scene {
             collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
             faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
+        
          // create player
          const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-         this.player = this.physics.add.sprite(newplayer.x, newplayer.y, "player-head", 450);
-         // set player physics properties
-         this.player.body.setSize(this.newplayer.width/2);
-         this.player.body.setMaxVelocity(this.MAX_X_VEL, this.MAX_Y_VEL);
-         this.player.body.setCollideWorldBounds(true);
+         this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
         
         this.anims.create({
             key: 'rollup',
