@@ -13,12 +13,19 @@ class Play extends Phaser.Scene {
         // tilemap and collision
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
         const tileset = map.addTilesetImage("tiles1","tiles");
+        
         this.floorLayer = map.createStaticLayer("floor", tileset,0, 0);
         this.wallsLayer = map.createStaticLayer("walls", tileset, 0, 0);
         this.aboveLayer = map.createStaticLayer("above_player", tileset);
-        this.tpLayer = map.createStaticLayer("tp", tileset);
+        this.tpLayer = map.createStaticLayer("tpright", tileset);
+        this.tpupLayer = map.createStaticLayer("tpup", tileset);
+        this.tpdownLayer = map.createStaticLayer("tpdown", tileset);
+        this.tpleftLayer = map.createStaticLayer("tpleft", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
         this.tpLayer.setCollisionByProperty({collides: true });
+        this.tpupLayer.setCollisionByProperty({collides: true });
+        this.tpdownLayer.setCollisionByProperty({collides: true });
+        this.tpleftLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
         
         //this.bg_music = this.sound.add('bg_music', {mute: false, volume: 0.2, rate: 1.2, loop: true});
@@ -32,11 +39,12 @@ class Play extends Phaser.Scene {
             collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
             faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
-
-         // create player
-         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-         this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
         
+        // create player
+        const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
+        //const newplayer1 = map.findObject("Objects", obj => obj.name === "Spawn1");
+        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+         
         this.anims.create({
             key: 'rollup',
             frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 7, first: 0}),
@@ -74,7 +82,7 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         });
         
-        this.upgradeBody = new Upgrade(this, game.config.width* 9/8, game.config.height*17/9, 'upgrade:body', "body");
+        this.upgradeBody = new Upgrade(this, game.config.width* 7/8, game.config.height*14/9, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
 
@@ -86,18 +94,33 @@ class Play extends Phaser.Scene {
         this.checkUpgrade();
         
         //collide against wall
+        
         this.physics.add.collider(this.player, this.wallsLayer); 
-        this.physics.add.collider(this.player, this.tpLayer); 
+        //this.physics.add.collider(this.player, this.tpLayer); 
 
-        this.temp = new JumpTile(this, 200, 200, 'upgrade:body', "right");
-        this.physics.add.collider(this.player, this.temp, () => {
+        //jump tile
+        //right
+        this.temp = new JumpTile(this, 0, 0, "player-body", "right");
+        this.physics.add.collider(this.player, this.tpLayer, () => {
             this.temp.jump(this.player);
         });
-        
+        //up
+        this.up = new JumpTile(this, 0, 0, "player-body", "up");
+        this.physics.add.collider(this.player, this.tpupLayer, () => {
+            this.up.jump(this.player);
+        });
+        this.down = new JumpTile(this, 0, 0, "player-body", "down");
+        this.physics.add.collider(this.player, this.tpdownLayer, () => {
+            this.down.jump(this.player);
+        });
+        this.left = new JumpTile(this, 0, 0, "player-body", "left");
+        this.physics.add.collider(this.player, this.tpleftLayer, () => {
+            this.left.jump(this.player);
+        });
         // camera
         this.camera = this.cameras.main;
         this.camera.startFollow(this.player);
-        this.camera.setBounds(0, 0, 3000, 3000);
+        this.camera.setBounds(0, 0, 5000, 5000);
          
         this.ind = this.physics.add.image(this, 100, 100, 'indicator', 0);
         //create groups for wall objects
@@ -109,9 +132,7 @@ class Play extends Phaser.Scene {
     update() {
         this.player.update();
 
-        //if(this.player.collides.tpLayer){
-       //     this.player.setposition(teleport.x , teleport.y)
-        //}
+        
     }
 
     checkUpgrade() {
