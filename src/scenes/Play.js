@@ -13,12 +13,8 @@ class Play extends Phaser.Scene {
         // tilemap and collision
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
         const tileset = map.addTilesetImage("tiles1","tiles");
-<<<<<<< HEAD
         
         this.floorLayer = map.createStaticLayer("floor", tileset,0, 0);
-=======
-        this.floorLayer = map.createStaticLayer("floor", tileset, 0, 0);
->>>>>>> c52b5eb3a8d4550273cbd37990992db2ddb704fb
         this.wallsLayer = map.createStaticLayer("walls", tileset, 0, 0);
         this.aboveLayer = map.createStaticLayer("above_player", tileset);
         this.tpLayer = map.createStaticLayer("tpright", tileset);
@@ -43,15 +39,6 @@ class Play extends Phaser.Scene {
             collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
             faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
-<<<<<<< HEAD
-=======
-
-        // create player
-        const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
-
-        //this.player = new PlayerSword(this, 200, 200);
->>>>>>> c52b5eb3a8d4550273cbd37990992db2ddb704fb
         
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
@@ -98,18 +85,18 @@ class Play extends Phaser.Scene {
         this.upgradeBody = new Upgrade(this, game.config.width* 7/8, game.config.height*14/9, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
+
+        // Adds Pointer Down Event for Player Attacks
+        this.input.on('pointerdown', () => {
+            this.player.attack(gamePointer.worldX, gamePointer.worldY);
+        }, this);
+
         this.checkUpgrade();
         
         //collide against wall
-<<<<<<< HEAD
         
         this.physics.add.collider(this.player, this.wallsLayer); 
         //this.physics.add.collider(this.player, this.tpLayer); 
-=======
-        this.physics.add.collider(this.player, this.wallsLayer);
-        this.physics.add.collider(this.player, this.tpLayer);
-
->>>>>>> c52b5eb3a8d4550273cbd37990992db2ddb704fb
 
         //jump tile
         //right
@@ -117,7 +104,6 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.tpLayer, () => {
             this.temp.jump(this.player);
         });
-<<<<<<< HEAD
         //up
         this.up = new JumpTile(this, 0, 0, "player-body", "up");
         this.physics.add.collider(this.player, this.tpupLayer, () => {
@@ -137,21 +123,6 @@ class Play extends Phaser.Scene {
         this.camera.setBounds(0, 0, 5000, 5000);
          
         this.ind = this.physics.add.image(this, 100, 100, 'indicator', 0);
-=======
-
-        this.attackIndicator = this.physics.add.image(100, 100, 'indicator').setOrigin(0, 0.5);
-        this.hitbox = this.physics.add.image(100, 100, 'sword-hitbox').setOrigin(0, 0.5);
-
-        // Adds Pointer Down Event for Player Attacks
-        this.input.on('pointerdown', () => {
-            this.player.attack(gamePointer.worldX, gamePointer.worldY, this.hitbox);
-        }, this);
-        
-        // camera
-        this.camera = this.cameras.main;
-        this.camera.startFollow(this.player);
-        this.camera.setBounds(0, 0, 3000, 3000);
->>>>>>> c52b5eb3a8d4550273cbd37990992db2ddb704fb
         //create groups for wall objects
 
         
@@ -159,25 +130,9 @@ class Play extends Phaser.Scene {
 
 
     update() {
-        this.updateIndicator();
         this.player.update();
 
         
-    }
-
-    updateIndicator() {
-        this.attackIndicator.setPosition(this.player.x, this.player.y);
-
-        // Gets Angle for Cursor
-        this.dx = gamePointer.worldX - this.player.x;
-        this.dy = gamePointer.worldY - this.player.y;
-        this.angle = Math.atan(this.dy/this.dx);
-
-        if (this.dx < 0) {
-            this.angle += Math.PI;
-        }
-
-        this.attackIndicator.setRotation(this.angle);
     }
 
     checkUpgrade() {
