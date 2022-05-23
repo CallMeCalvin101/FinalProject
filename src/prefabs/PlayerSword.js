@@ -1,6 +1,6 @@
-class PlayerBody extends Player {
+class PlayerSword extends Player {
     constructor(scene, x, y) {
-        super(scene, x, y, 'player-body');
+        super(scene, x, y, 'player-sword');
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -9,7 +9,7 @@ class PlayerBody extends Player {
         this.maxSpeed = 350;
         this.setMaxVelocity(this.maxSpeed);
         this.drag = 0.01;
-        this.dashSpeed = 500;
+        this.dashSpeed = 50;
         this.isAttack = false;
         this.attackDuration = 0;
         this.attackDuration_MAX = 25;
@@ -76,5 +76,8 @@ class PlayerBody extends Player {
         this.setMaxVelocity(this.dashSpeed);
         this.setVelocityX(this.dirX * this.dashSpeed * Math.cos(this.angle));
         this.setVelocityY(this.dirX * this.dashSpeed * Math.sin(this.angle));
+
+       hitbox.setPosition(this.x, this.y);
+       hitbox.setRotation(this.angle);
     }
 }

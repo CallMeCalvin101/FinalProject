@@ -13,7 +13,7 @@ class Play extends Phaser.Scene {
         // tilemap and collision
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
         const tileset = map.addTilesetImage("tiles1","tiles");
-        this.floorLayer = map.createStaticLayer("floor", tileset,0, 0);
+        this.floorLayer = map.createStaticLayer("floor", tileset, 0, 0);
         this.wallsLayer = map.createStaticLayer("walls", tileset, 0, 0);
         this.aboveLayer = map.createStaticLayer("above_player", tileset);
         this.tpLayer = map.createStaticLayer("tp", tileset);
@@ -33,9 +33,11 @@ class Play extends Phaser.Scene {
             faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
 
-         // create player
-         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-         this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+        // create player
+        const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
+        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+
+        //this.player = new PlayerSword(this, 200, 200);
         
         this.anims.create({
             key: 'rollup',
@@ -77,29 +79,30 @@ class Play extends Phaser.Scene {
         this.upgradeBody = new Upgrade(this, game.config.width* 9/8, game.config.height*17/9, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
-
-        // Adds Pointer Down Event for Player Attacks
-        this.input.on('pointerdown', () => {
-            this.player.attack(gamePointer.worldX, gamePointer.worldY);
-        }, this);
-
         this.checkUpgrade();
         
         //collide against wall
-        this.physics.add.collider(this.player, this.wallsLayer); 
-        this.physics.add.collider(this.player, this.tpLayer); 
+        this.physics.add.collider(this.player, this.wallsLayer);
+        this.physics.add.collider(this.player, this.tpLayer);
+
 
         this.temp = new JumpTile(this, 200, 200, 'upgrade:body', "right");
         this.physics.add.collider(this.player, this.temp, () => {
             this.temp.jump(this.player);
         });
+
+        this.attackIndicator = this.physics.add.image(100, 100, 'indicator').setOrigin(0, 0.5);
+        this.hitbox = this.physics.add.image(100, 100, 'sword-hitbox').setOrigin(0, 0.5);
+
+        // Adds Pointer Down Event for Player Attacks
+        this.input.on('pointerdown', () => {
+            this.player.attack(gamePointer.worldX, gamePointer.worldY, this.hitbox);
+        }, this);
         
         // camera
         this.camera = this.cameras.main;
         this.camera.startFollow(this.player);
         this.camera.setBounds(0, 0, 3000, 3000);
-         
-        this.ind = this.physics.add.image(this, 100, 100, 'indicator', 0);
         //create groups for wall objects
 
         
@@ -107,11 +110,27 @@ class Play extends Phaser.Scene {
 
 
     update() {
+        this.updateIndicator();
         this.player.update();
 
         //if(this.player.collides.tpLayer){
        //     this.player.setposition(teleport.x , teleport.y)
         //}
+    }
+
+    updateIndicator() {
+        this.attackIndicator.setPosition(this.player.x, this.player.y);
+
+        // Gets Angle for Cursor
+        this.dx = gamePointer.worldX - this.player.x;
+        this.dy = gamePointer.worldY - this.player.y;
+        this.angle = Math.atan(this.dy/this.dx);
+
+        if (this.dx < 0) {
+            this.angle += Math.PI;
+        }
+
+        this.attackIndicator.setRotation(this.angle);
     }
 
     checkUpgrade() {
