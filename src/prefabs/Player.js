@@ -114,7 +114,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
     }
-    attack(px, py) {
+    attack(px, py, hitbox) {
         if (this.isAttack != false) {
             return;
         }
