@@ -17,12 +17,12 @@ class Play extends Phaser.Scene {
         this.floorLayer = map.createStaticLayer("floor", tileset,0, 0);
         this.wallsLayer = map.createStaticLayer("walls", tileset, 0, 0);
         this.aboveLayer = map.createStaticLayer("above_player", tileset);
-        this.tpLayer = map.createStaticLayer("tpright", tileset);
+        this.tprightlayer = map.createStaticLayer("tpright", tileset);
         this.tpupLayer = map.createStaticLayer("tpup", tileset);
         this.tpdownLayer = map.createStaticLayer("tpdown", tileset);
         this.tpleftLayer = map.createStaticLayer("tpleft", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
-        this.tpLayer.setCollisionByProperty({collides: true });
+        this.tprightlayer.setCollisionByProperty({collides: true });
         this.tpupLayer.setCollisionByProperty({collides: true });
         this.tpdownLayer.setCollisionByProperty({collides: true });
         this.tpleftLayer.setCollisionByProperty({collides: true });
@@ -41,9 +41,10 @@ class Play extends Phaser.Scene {
         });
         
         // create player
-        const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        //const newplayer1 = map.findObject("Objects", obj => obj.name === "Spawn1");
-        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+        //const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
+        //this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+
+        this.player = new PlayerSword(this, 200, 200);
          
         this.anims.create({
             key: 'rollup',
@@ -88,7 +89,7 @@ class Play extends Phaser.Scene {
 
         // Adds Pointer Down Event for Player Attacks
         this.input.on('pointerdown', () => {
-            this.player.attack(gamePointer.worldX, gamePointer.worldY);
+            this.player.attack(gamePointer.worldX, gamePointer.worldY, this.hitbox);
         }, this);
 
         this.checkUpgrade();
@@ -96,12 +97,12 @@ class Play extends Phaser.Scene {
         //collide against wall
         
         this.physics.add.collider(this.player, this.wallsLayer); 
-        //this.physics.add.collider(this.player, this.tpLayer); 
+        //this.physics.add.collider(this.player, this.tprightlayer); 
 
         //jump tile
         //right
         this.temp = new JumpTile(this, 0, 0, "player-body", "right");
-        this.physics.add.collider(this.player, this.tpLayer, () => {
+        this.physics.add.collider(this.player, this.tprightlayer, () => {
             this.temp.jump(this.player);
         });
         //up
@@ -117,6 +118,11 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.tpleftLayer, () => {
             this.left.jump(this.player);
         });
+
+        // Mouse Indicators
+        this.attackIndicator = this.physics.add.image(100, 100, 'indicator').setOrigin(0, 0.5);
+        this.hitbox = this.physics.add.image(100, 100, 'sword-hitbox').setOrigin(0, 0.5);
+
         // camera
         this.camera = this.cameras.main;
         this.camera.startFollow(this.player);
@@ -131,10 +137,25 @@ class Play extends Phaser.Scene {
 
 
     update() {
+        this.updateIndicator();
         this.player.update();
-
-        
     }
+
+    updateIndicator() {
+        this.attackIndicator.setPosition(this.player.x, this.player.y);
+
+        // Gets Angle for Cursor
+        this.dx = gamePointer.worldX - this.player.x;
+        this.dy = gamePointer.worldY - this.player.y;
+        this.angle = Math.atan(this.dy/this.dx);
+
+        if (this.dx < 0) {
+            this.angle += Math.PI;
+        }
+
+        this.attackIndicator.setRotation(this.angle);
+    }
+
 
     checkUpgrade() {
         for (let type of this.upgradeGroup.getChildren()) {
@@ -157,6 +178,23 @@ class Play extends Phaser.Scene {
 
     resetPlayer() {
         this.camera.startFollow(this.player);
-        this.physics.add.collider(this.player, this.wallLayer);
+        this.physics.add.collider(this.player, this.wallsLayer);
+        this.physics.add.collider(this.player, this.tprightlayer, () => {
+            this.temp.jump(this.player);
+        });
+        //up
+        this.up = new JumpTile(this, 0, 0, "player-body", "up");
+        this.physics.add.collider(this.player, this.tpupLayer, () => {
+            this.up.jump(this.player);
+        });
+        this.down = new JumpTile(this, 0, 0, "player-body", "down");
+        this.physics.add.collider(this.player, this.tpdownLayer, () => {
+            this.down.jump(this.player);
+        });
+        this.left = new JumpTile(this, 0, 0, "player-body", "left");
+        this.physics.add.collider(this.player, this.tpleftLayer, () => {
+            this.left.jump(this.player);
+        });
+
     }
 }
