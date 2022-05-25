@@ -125,7 +125,8 @@ class Play extends Phaser.Scene {
         this.ind = this.physics.add.image(this, 100, 100, 'indicator', 0);
         //create groups for wall objects
 
-        
+        //enemy
+        this.e1 = new Enemies(this, 'enemyhead', 3, true);
     }
 
 
