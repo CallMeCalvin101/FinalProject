@@ -42,8 +42,9 @@ class Play extends Phaser.Scene {
         
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        //const newplayer1 = map.findObject("Objects", obj => obj.name === "Spawn1");
         this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+
+        //this.player = new PlayerSword(this, 200, 200);
          
         this.anims.create({
             key: 'rollup',
@@ -117,6 +118,11 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.tpleftLayer, () => {
             this.left.jump(this.player);
         });
+
+        // Mouse Indicators
+        this.attackIndicator = this.physics.add.image(100, 100, 'indicator').setOrigin(0, 0.5);
+        this.hitbox = this.physics.add.image(100, 100, 'sword-hitbox').setOrigin(0, 0.5);
+
         // camera
         this.camera = this.cameras.main;
         this.camera.startFollow(this.player);
@@ -130,10 +136,25 @@ class Play extends Phaser.Scene {
 
 
     update() {
+        this.updateIndicator();
         this.player.update();
-
-        
     }
+
+    updateIndicator() {
+        this.attackIndicator.setPosition(this.player.x, this.player.y);
+
+        // Gets Angle for Cursor
+        this.dx = gamePointer.worldX - this.player.x;
+        this.dy = gamePointer.worldY - this.player.y;
+        this.angle = Math.atan(this.dy/this.dx);
+
+        if (this.dx < 0) {
+            this.angle += Math.PI;
+        }
+
+        this.attackIndicator.setRotation(this.angle);
+    }
+
 
     checkUpgrade() {
         for (let type of this.upgradeGroup.getChildren()) {
