@@ -41,10 +41,10 @@ class Play extends Phaser.Scene {
         });
         
         // create player
-        const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+        //const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
+        //this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
 
-        //this.player = new PlayerSword(this, 200, 200);
+        this.player = new PlayerSword(this, 200, 200);
          
         this.anims.create({
             key: 'rollup',
@@ -89,7 +89,7 @@ class Play extends Phaser.Scene {
 
         // Adds Pointer Down Event for Player Attacks
         this.input.on('pointerdown', () => {
-            this.player.attack(gamePointer.worldX, gamePointer.worldY);
+            this.player.attack(gamePointer.worldX, gamePointer.worldY, this.hitbox);
         }, this);
 
         this.checkUpgrade();
