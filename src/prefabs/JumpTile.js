@@ -6,7 +6,7 @@ class JumpTile extends Phaser.Physics.Arcade.Sprite {
 
         this.setImmovable(true);
         this.direction = direction;
-        this.distance = 6 * 32;
+        this.distance = 7 * 32;
     }
 
     jump(player) {
@@ -23,7 +23,8 @@ class JumpTile extends Phaser.Physics.Arcade.Sprite {
             this.newY += this.distance;
         }
 
-        player.setVelocity(0);
+        
         player.setPosition(this.newX, this.newY);
+        player.setVelocity(0);
     }
 }
