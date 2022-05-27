@@ -8,6 +8,7 @@ let config = {
     type: Phaser.CANVAS,
     width: 1280,
     height: 720,
+    backgroundColor: '#8e9490image.pngimage.png',
     physics: {
         default: 'arcade',
         arcade: {
