@@ -22,10 +22,6 @@ class Play extends Phaser.Scene {
         this.tpdownLayer = map.createStaticLayer("tpdown", tileset);
         this.tpleftLayer = map.createStaticLayer("tpleft", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
-        this.tprightlayer.setCollisionByProperty({collides: true });
-        this.tpupLayer.setCollisionByProperty({collides: true });
-        this.tpdownLayer.setCollisionByProperty({collides: true });
-        this.tpleftLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
         
         //this.bg_music = this.sound.add('bg_music', {mute: false, volume: 0.2, rate: 1.2, loop: true});
@@ -41,10 +37,10 @@ class Play extends Phaser.Scene {
         });
         
         // create player
-        //const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        //this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+        const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
+        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
 
-        this.player = new PlayerSword(this, 200, 200);
+        //this.player = new PlayerSword(this, 200, 200);
          
         this.anims.create({
             key: 'rollup',
@@ -95,12 +91,44 @@ class Play extends Phaser.Scene {
         this.checkUpgrade();
         
         //collide against wall
-        
         this.physics.add.collider(this.player, this.wallsLayer); 
-        //this.physics.add.collider(this.player, this.tprightlayer); 
 
-        //jump tile
-        //right
+        // Jump Implementation
+        this.jumpTiles = this.add.group();
+
+        // Reads from object jump tiles based on direction and adds to the group
+        let rightJTLocations = map.filterObjects("Objects", obj => obj.name === "right");
+        rightJTLocations.map((tile) => {
+            let rightTile = new JumpTile(this, tile.x, tile.y, "player-head", "right");
+            this.jumpTiles.add(rightTile);
+        });
+
+        let leftJTLocations = map.filterObjects("Objects", obj => obj.name === "left");
+        leftJTLocations.map((tile) => {
+            let leftTile = new JumpTile(this, tile.x, tile.y, "player-head", "left");
+            this.jumpTiles.add(leftTile);
+        });
+
+        let upJTLocations = map.filterObjects("Objects", obj => obj.name === "up");
+        upJTLocations.map((tile) => {
+            let upTile = new JumpTile(this, tile.x, tile.y, "player-head", "up");
+            this.jumpTiles.add(upTile);
+        });
+
+        let downJTLocations = map.filterObjects("Objects", obj => obj.name === "down");
+        downJTLocations.map((tile) => {
+            let downTile = new JumpTile(this, tile.x, tile.y, "player-head", "down");
+            this.jumpTiles.add(downTile);
+        });
+
+        // Implements collisions between player and tiles
+        this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
+        function playerJump (player, tile) {
+            tile.jump(player);
+        }
+
+
+        /*
         this.temp = new JumpTile(this, 0, 0, "player-body", "right");
         this.physics.add.collider(this.player, this.tprightlayer, () => {
             this.temp.jump(this.player);
@@ -117,7 +145,7 @@ class Play extends Phaser.Scene {
         this.left = new JumpTile(this, 0, 0, "player-body", "left");
         this.physics.add.collider(this.player, this.tpleftLayer, () => {
             this.left.jump(this.player);
-        });
+        }); */
 
         // Mouse Indicators
         this.attackIndicator = this.physics.add.image(100, 100, 'indicator').setOrigin(0, 0.5);
@@ -179,22 +207,10 @@ class Play extends Phaser.Scene {
     resetPlayer() {
         this.camera.startFollow(this.player);
         this.physics.add.collider(this.player, this.wallsLayer);
-        this.physics.add.collider(this.player, this.tprightlayer, () => {
-            this.temp.jump(this.player);
-        });
-        //up
-        this.up = new JumpTile(this, 0, 0, "player-body", "up");
-        this.physics.add.collider(this.player, this.tpupLayer, () => {
-            this.up.jump(this.player);
-        });
-        this.down = new JumpTile(this, 0, 0, "player-body", "down");
-        this.physics.add.collider(this.player, this.tpdownLayer, () => {
-            this.down.jump(this.player);
-        });
-        this.left = new JumpTile(this, 0, 0, "player-body", "left");
-        this.physics.add.collider(this.player, this.tpleftLayer, () => {
-            this.left.jump(this.player);
-        });
 
+        this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
+        function playerJump (player, tile) {
+            tile.jump(player);
+        }
     }
 }
