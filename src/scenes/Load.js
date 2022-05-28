@@ -18,6 +18,8 @@ class Load extends Phaser.Scene {
         this.load.tilemapTiledJSON('map',"map1.json")
 
 
+
+
         this.load.spritesheet('wall', 'canon4.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 7});       
 
 
