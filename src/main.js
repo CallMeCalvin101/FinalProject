@@ -3,12 +3,11 @@
  * Title: Spiritual Relief
  * Date Completed:
  *******************************************************************************************/
-
 let config = {
     type: Phaser.CANVAS,
     width: 1280,
     height: 720,
-    backgroundColor: '#8e9490image.pngimage.png',
+    backgroundColor: '#8e9490',
     physics: {
         default: 'arcade',
         arcade: {
@@ -19,8 +18,8 @@ let config = {
             }
         }
     },
-    scene: [Load, Menu, Play]
-}
+    scene: [Load, Menu, Play, newMap]
+};
 
 let game = new Phaser.Game(config);
 
