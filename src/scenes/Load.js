@@ -17,9 +17,14 @@ class Load extends Phaser.Scene {
         this.load.image("tiles","tiles.png");
         this.load.tilemapTiledJSON('map',"map1.json")
 
+        //Load characters
+        //this.load.atlas('enemy1', 'enemy1.png','enemy1.json');
+
+
 
         this.load.spritesheet('wall', 'canon4.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 7});       
-
+        this.load.spritesheet('enemy1','enemy1.png',{frameWidth:152, frameHeight:170, startFrame:0, endFrame:15});
+        
 
     }
 

@@ -39,9 +39,20 @@ class Play extends Phaser.Scene {
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
         this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
-
+        //create Enemy
+        const newEnemy1 = map.findObject("Objects", obj => obj.name === "Enemy");
+        this.enemy = new PatrolEnemy(this, newEnemy1.x,newEnemy1.y,'enemy1');
+        
+        const newEnemy2 = map.findObject("Objects", obj => obj.type === "Enemy");
+        this.enemies = this.add.group();
+        for (let i = 0; i < 4; i++){
+            const e = new PatrolEnemy(this, newEnemy2.x, newEemy2.y, 'enemy1');
+            this.enemies.add(e)
+        }
+        
         //this.player = new PlayerSword(this, 200, 200);
          
+        //player anime
         this.anims.create({
             key: 'rollup',
             frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 7, first: 0}),
@@ -55,8 +66,10 @@ class Play extends Phaser.Scene {
             frameRate: 12,
             repeat: -1
         });
-
-
+        
+        
+        
+       
         // Define Keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -92,6 +105,7 @@ class Play extends Phaser.Scene {
         
         //collide against wall
         this.physics.add.collider(this.player, this.wallsLayer); 
+        this.physics.add.collider(this.enemy, this.wallsLayer);
 
         // Jump Implementation
         this.jumpTiles = this.add.group();
@@ -127,7 +141,8 @@ class Play extends Phaser.Scene {
             tile.jump(player);
         }
 
-
+      
+      
         /*
         this.temp = new JumpTile(this, 0, 0, "player-body", "right");
         this.physics.add.collider(this.player, this.tprightlayer, () => {
@@ -161,12 +176,17 @@ class Play extends Phaser.Scene {
 
         //enemy
         this.e1 = new Enemies(this, 'enemyhead', 3, true);
+
+        
     }
 
 
     update() {
         this.updateIndicator();
         this.player.update();
+
+        this.enemy.update();
+
     }
 
     updateIndicator() {
@@ -213,4 +233,5 @@ class Play extends Phaser.Scene {
             tile.jump(player);
         }
     }
+    
 }
