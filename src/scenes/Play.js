@@ -182,7 +182,7 @@ class Play extends Phaser.Scene {
 
         
     }
-
+    
 
     update() {
         this.updateIndicator();
@@ -193,7 +193,9 @@ class Play extends Phaser.Scene {
         if (this.player.body.speed > 0){
         if (distance < 300)
             {
-            this.enemy.body.reset(this.player.x, this.player.y)
+            //this.enemy.body.reset(this.player.x, this.player.y);
+              this.physics.moveToObject(this.enemy, this.player, 100);
+            //this.player.body.reset(50,50);
             }
         }
         //////////////////
