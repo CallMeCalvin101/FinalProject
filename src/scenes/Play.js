@@ -43,12 +43,12 @@ class Play extends Phaser.Scene {
         const newEnemy1 = map.findObject("Objects", obj => obj.name === "Enemy");
         this.enemy = new PatrolEnemy(this, newEnemy1.x,newEnemy1.y,'enemy1');
         
-        const newEnemy2 = map.findObject("Objects", obj => obj.type === "Enemy");
-        this.enemies = this.add.group();
-        for (let i = 0; i < 4; i++){
-            const e = new PatrolEnemy(this, newEnemy2.x, newEemy2.y, 'enemy1');
-            this.enemies.add(e)
-        }
+       // const newEnemy2 = map.findObject("Objects", obj => obj.type === "Enemy");
+       // this.enemies = this.add.group();
+        //for (let i = 0; i < 4; i++){
+        //    const e = new PatrolEnemy(this, newEnemy2.x, newEemy2.y, 'enemy1');
+         //   this.enemies.add(e)
+        //}
         
         //this.player = new PlayerSword(this, 200, 200);
          
