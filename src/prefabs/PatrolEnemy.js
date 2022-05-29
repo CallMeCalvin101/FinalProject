@@ -1,7 +1,7 @@
 class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, textureKey, texture) {
+    constructor(scene, x, y, textureKey) {
         // call Phaser Physics Sprite constructor
-        super(scene, x, y, 'Enemy');
+        super(scene, x, y, textureKey);
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add to physics system
@@ -17,28 +17,28 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
          //Enemy anime
          this.anims.create({
             key: 'enemyDown',            
-            frames: this.anims.generateFrameNumbers('enemy1', {start: 0, end: 6, first: 0}),
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 0, end: 6, first: 0}),
             frameRate: 6,
             yoyo: false,
             repeat: -1
         });
         this.anims.create({
             key: 'enemyLeft',            
-            frames: this.anims.generateFrameNumbers('enemy1', {start: 4, end: 7, first: 4}),
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 4, end: 7, first: 4}),
             frameRate: 4,
             yoyo: true,
             repeat: -1
         });
         this.anims.create({
             key: 'enemyRight',            
-            frames: this.anims.generateFrameNumbers('enemy1', {start: 8, end: 11, first: 8}),
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 8, end: 11, first: 8}),
             frameRate: 4,
             yoyo: true,
             repeat: -1
         });
         this.anims.create({
             key: 'enemyUp',            
-            frames: this.anims.generateFrameNumbers('enemy1', {start: 12, end: 15, first: 12}),
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 12, end: 15, first: 12}),
             frameRate: 4,
             yoyo: true,
             repeat: -1

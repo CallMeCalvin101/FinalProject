@@ -42,6 +42,9 @@ class Play extends Phaser.Scene {
         //create Enemy
         const newEnemy1 = map.findObject("Objects", obj => obj.name === "Enemy");
         this.enemy = new PatrolEnemy(this, newEnemy1.x,newEnemy1.y,'enemy1');
+
+
+
         
        // const newEnemy2 = map.findObject("Objects", obj => obj.type === "Enemy");
        // this.enemies = this.add.group();
@@ -184,8 +187,16 @@ class Play extends Phaser.Scene {
     update() {
         this.updateIndicator();
         this.player.update();
-
         this.enemy.update();
+        // enemy kill player
+        var distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+        if (this.player.body.speed > 0){
+        if (distance < 300)
+            {
+            this.enemy.body.reset(this.player.x, this.player.y)
+            }
+        }
+        //////////////////
 
     }
 
