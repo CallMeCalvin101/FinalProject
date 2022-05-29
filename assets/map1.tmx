@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="250" height="250" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="73">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="250" height="250" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="82">
  <editorsettings>
   <export target="map1.json" format="json"/>
  </editorsettings>
@@ -1355,18 +1355,6 @@
   <object id="7" name="Body" x="1126.67" y="968">
    <point/>
   </object>
-  <object id="8" name="Enemy" x="856" y="3656">
-   <point/>
-  </object>
-  <object id="9" name="Enemy" x="852" y="3982.67">
-   <point/>
-  </object>
-  <object id="10" name="Enemy" x="1834.67" y="3642.67">
-   <point/>
-  </object>
-  <object id="11" name="Enemy" x="1836" y="3981.33">
-   <point/>
-  </object>
   <object id="26" name="beam" x="2182" y="4393" width="19" height="18"/>
   <object id="27" x="2179" y="4322" width="21" height="26"/>
   <object id="28" x="2176" y="4064" width="24" height="28"/>
@@ -1410,6 +1398,9 @@
   <object id="69" name="down" gid="54" x="2079.75" y="3456" width="32" height="32"/>
   <object id="70" name="down" gid="54" x="1856" y="1920" width="32" height="32"/>
   <object id="72" name="end1" x="3713.33" y="4350.67" width="26.6667" height="32"/>
+  <object id="78" name="Enemy" gid="1" x="848" y="3664" width="32" height="32"/>
+  <object id="79" name="Enemy" gid="1" x="1810.67" y="3668" width="32" height="32"/>
+  <object id="80" name="Enemy" gid="1" x="852" y="3984" width="32" height="32"/>
+  <object id="81" name="Enemy" gid="1" x="1818.67" y="3986.67" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="9" name="Enemy"/>
 </map>

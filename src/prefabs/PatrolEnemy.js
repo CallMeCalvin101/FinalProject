@@ -69,4 +69,43 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
                 break;
         }
     }
+    update(){
+        const enemyBlocked = this.body.blocked
+        
+        if(enemyBlocked.down || enemyBlocked.up || enemyBlocked.left || enemyBlocked.right){
+            console.log(enemyBlocked);
+            let possibleDirections = []
+            for (const direction in enemyBlocked){
+                possibleDirections.push(direction)
+            }
+            console.log(possibleDirections);
+            const newDirection = possibleDirections [Math.floor(Math.random()*4)+1]
+            switch(newDirection){
+                case 'up':
+                    this.body.setVelocity(0,-this.speed) // Up
+                    this.anims.play('enemyUp')
+                    break
+                case 'left':
+                    this.body.setVelocity(-this.speed,0) //Left
+                    this.anims.play('enemyLeft')
+                    break
+                case 'down':
+                    this.body.setVelocity(0,this.speed) //Down
+                    this.anims.play('enemyDown')
+                    break
+                case 'right':
+                    this.body.setVelocity(this.speed,0) //Right
+                    this.anims.play('enemyRight')
+                    break
+                case 'none':
+                    this.body.setVelocity(0,0) //not going anywhere
+                    this.anims.stop()
+                    break
+                default:
+                    break;
+            }
+
+        }
+    }
+
 }
