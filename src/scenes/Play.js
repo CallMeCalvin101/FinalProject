@@ -261,7 +261,13 @@ class Play extends Phaser.Scene {
 
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
         function playerJump (player, tile) {
-            tile.jump(player);
+            player.setAlpha(0);
+            //set position of from emitter and make explode
+            this.fromEmitter.setPosition(tile.x + 16, tile.y-16);
+            this.fromEmitter.frequency = 1;
+            this.fromEmitter.explode();
+            this.time.delayedCall(100, ()=>{tile.jump(player);});
+            // tile.jump(player);
         }
     }
     
