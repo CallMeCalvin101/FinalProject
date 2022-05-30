@@ -37,8 +37,8 @@ class Play extends Phaser.Scene {
         
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        // this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
-        this.player = new Player(this, 1119, 1187, "player-head");
+        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+        // this.player = new Player(this, 1119, 1187, "player-head"); //for starting player head right at body upgrade
         //create Enemy
         const newEnemy1 = map.findObject("Objects", obj => obj.name === "Enemy");
         this.enemy = new PatrolEnemy(this, newEnemy1.x,newEnemy1.y,'enemy1');
