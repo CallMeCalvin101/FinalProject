@@ -13,7 +13,6 @@ class Play extends Phaser.Scene {
         // tilemap and collision
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
         const tileset = map.addTilesetImage("tiles1","tiles");
-        
         this.floorLayer = map.createLayer("floor", tileset,0, 0);
         this.wallsLayer = map.createLayer("walls", tileset, 0, 0);
         this.aboveLayer = map.createLayer("above_player", tileset);
@@ -23,6 +22,7 @@ class Play extends Phaser.Scene {
         this.tpleftLayer = map.createLayer("tpleft", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
+    
         //this.bg_music = this.sound.add('bg_music', {mute: false, volume: 0.2, rate: 1.2, loop: true});
         //this.bg_music.play();
 
@@ -40,13 +40,14 @@ class Play extends Phaser.Scene {
         this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
         // this.player = new Player(this, 1119, 1187, "player-head"); //for starting player head right at body upgrade
         //create Enemy
-        this.enemies = this.add.group();
+        this.enemies = this.add.group({
+            runChildUpdate: true            // make sure update runs on group children
+        })
         let newEnemy1 = map.filterObjects("Objects", obj => obj.name === "EnemySpawn");
         newEnemy1.map((tile) => {
             this.enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
             this.enemies.add(this.enemy);
         });
-        
 
 
         //const newEnemy2 = map.findObject("Objects", obj => obj.name === "Enemy1");
@@ -115,7 +116,8 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         });
         
-        this.upgradeBody = new Upgrade(this, game.config.width* 7/8, game.config.height*14/9, 'upgrade:body', "body");
+        const newbody = map.findObject("Objects", obj => obj.name === "Body");
+        this.upgradeBody = new Upgrade(this, newbody.x, newbody.y, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
 
@@ -130,6 +132,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.wallsLayer); 
         this.physics.add.collider(this.enemies, this.wallsLayer);
         this.physics.add.collider(this.player, this.enemies);
+        this.physics.add.collider(this.enemies, this.enemies);
         // Jump Implementation
         this.jumpTiles = this.add.group();
 
@@ -206,7 +209,10 @@ class Play extends Phaser.Scene {
         //enemy
         this.e1 = new Enemies(this, 'enemyhead', 3, true);
 
-        
+        this.obstacleGroup = this.add.group({
+            runChildUpdate: true            // make sure update runs on group children
+        })
+
     }
     
 
@@ -214,9 +220,8 @@ class Play extends Phaser.Scene {
         this.updateIndicator();
         this.player.update();
         this.enemy.update();
-       
         // enemy kill player
-        var distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+        let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
         if (this.player.body.speed > 0){
         if (distance < 300)
             {
@@ -225,6 +230,7 @@ class Play extends Phaser.Scene {
             //this.player.body.reset(50,50);
             }
         };
+       
         //////////////////
     }
 
@@ -266,7 +272,8 @@ class Play extends Phaser.Scene {
     resetPlayer() {
         this.camera.startFollow(this.player);
         this.physics.add.collider(this.player, this.wallsLayer);
-
+        this.physics.add.collider(this.player, this.enmies);
+        this.physics.add.collider(this.player, this.enemy);
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
         function playerJump (player, tile) {
             player.setAlpha(0);

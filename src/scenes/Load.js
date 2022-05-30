@@ -20,6 +20,7 @@ class Load extends Phaser.Scene {
 
         this.load.tilemapTiledJSON('map2', "map2.json")
         this.load.image("tiles1","tiles1.png");
+        this.load.image("gun","gun.png");
         //Load characters
         //this.load.atlas('enemy1', 'enemy1.png','enemy1.json');
 
