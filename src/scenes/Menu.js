@@ -9,6 +9,8 @@ class Menu extends Phaser.Scene {
         this.load.image('rb2', '/assets/rb2.png');
         this.load.image('bt1', '/assets/bt1.png');
         this.load.image('bt2', '/assets/bt2.png');
+        this.load.image('black', '/assets/blackscreen.png');
+
         this.load.image('titletext', '/assets/titletext.png');
 
         this.load.audio('deathmusic2', './assets/deathmusic2.wav');
@@ -16,6 +18,11 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
+        //for developer use to skip menu
+
+        this.scene.start('playScene');
+
+
         this.deathmusic2 = this.sound.add('deathmusic2', {
             mute: false,
             volume: 0.2,
@@ -42,6 +49,7 @@ class Menu extends Phaser.Scene {
         gamePointer = this.input.activePointer;
 
         this.title = this.add.sprite(game.config.width/2+300, 190, 'titletext').setOrigin(0.5).setScale(0.0);
+        this.blackscreen = this.add.sprite(0, 0, 'black').setOrigin(0,0)
 
         this.nextButton = this.add.sprite(game.config.width/2+300, 490, 'bt1').setOrigin(0.5).setScale(0.0);
         this.nextButton.setInteractive();
@@ -70,7 +78,7 @@ class Menu extends Phaser.Scene {
             duration: 2000,
             repeat: 0,
             hold: -1,
-            delay: 2300,
+            delay: 1000,
             onCompleteScope: this
         });
 
@@ -83,6 +91,17 @@ class Menu extends Phaser.Scene {
             repeat: 0,
             hold: -1,
             delay: 100,
+            onCompleteScope: this
+        });
+
+        let blackTween = this.tweens.add({
+            targets: this.blackscreen,
+            alpha: { from: 1, to: 0 },
+            ease: 'Sine.easeInOut',
+            duration: 600,
+            repeat: 0,
+            hold: -1,
+            delay: 0,
             onCompleteScope: this
         });
 
