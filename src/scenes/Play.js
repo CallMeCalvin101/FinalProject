@@ -23,7 +23,6 @@ class Play extends Phaser.Scene {
         this.tpleftLayer = map.createStaticLayer("tpleft", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
-        
         //this.bg_music = this.sound.add('bg_music', {mute: false, volume: 0.2, rate: 1.2, loop: true});
         //this.bg_music.play();
 
@@ -38,12 +37,26 @@ class Play extends Phaser.Scene {
         
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+        // this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+        this.player = new Player(this, 1119, 1187, "player-head");
         //create Enemy
         const newEnemy1 = map.findObject("Objects", obj => obj.name === "Enemy");
         this.enemy = new PatrolEnemy(this, newEnemy1.x,newEnemy1.y,'enemy1');
 
 
+        this.particleManager = this.add.particles('cross');
+        this.emitterconfig = 
+        { 
+            x: this.player.x,
+            y: this.player.y,
+            lifespan: 100, 
+            speed: 90,
+            scale: { start: 1, end: 0.5 },
+            alpha: { start: 1, end: 0 },
+            // higher steps value = more time to go btwn min/max
+            lifespan: { min: 10, max: 7000, steps: 500 }}
+        this.fromEmitter = this.particleManager.createEmitter(this.emitterconfig);
+        this.fromEmitter.explode();
 
         
        // const newEnemy2 = map.findObject("Objects", obj => obj.type === "Enemy");
@@ -55,24 +68,23 @@ class Play extends Phaser.Scene {
         
         //this.player = new PlayerSword(this, 200, 200);
          
-        //player anime
+
+        //player anims
         this.anims.create({
             key: 'rollup',
             frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 7, first: 0}),
             frameRate: 12,
             repeat: -1
         });
-
         this.anims.create({
             key: 'sideroll',
             frames: this.anims.generateFrameNumbers('horizroll', {start: 0, end: 7, first: 0}),
             frameRate: 12,
             repeat: -1
         });
+
+    
         
-        
-        
-       
         // Define Keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -141,7 +153,13 @@ class Play extends Phaser.Scene {
         // Implements collisions between player and tiles
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
         function playerJump (player, tile) {
-            tile.jump(player);
+            player.setAlpha(0);
+            //set position of from emitter and make explode
+            this.fromEmitter.setPosition(tile.x + 16, tile.y-16);
+            this.fromEmitter.frequency = 1;
+            this.fromEmitter.explode();
+            this.time.delayedCall(100, ()=>{tile.jump(player);});
+            // tile.jump(player);
         }
 
       
