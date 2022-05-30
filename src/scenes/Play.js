@@ -110,6 +110,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.wallsLayer); 
         this.physics.add.collider(this.enemy, this.wallsLayer);
 
+        this.physics.add.collider(this.player, this.enemy);
         // Jump Implementation
         this.jumpTiles = this.add.group();
 
@@ -188,6 +189,7 @@ class Play extends Phaser.Scene {
         this.updateIndicator();
         this.player.update();
         this.enemy.update();
+       
         // enemy kill player
         var distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
         if (this.player.body.speed > 0){
@@ -197,9 +199,8 @@ class Play extends Phaser.Scene {
               this.physics.moveToObject(this.enemy, this.player, 100);
             //this.player.body.reset(50,50);
             }
-        }
+        };
         //////////////////
-
     }
 
     updateIndicator() {

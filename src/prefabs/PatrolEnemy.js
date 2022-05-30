@@ -17,7 +17,7 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
          //Enemy anime
          this.anims.create({
             key: 'enemyDown',            
-            frames: this.anims.generateFrameNumbers(textureKey, {start: 0, end: 6, first: 0}),
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 0, end: 3, first: 0}),
             frameRate: 6,
             yoyo: false,
             repeat: -1
