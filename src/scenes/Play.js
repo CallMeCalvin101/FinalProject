@@ -14,13 +14,13 @@ class Play extends Phaser.Scene {
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
         const tileset = map.addTilesetImage("tiles1","tiles");
         
-        this.floorLayer = map.createStaticLayer("floor", tileset,0, 0);
-        this.wallsLayer = map.createStaticLayer("walls", tileset, 0, 0);
-        this.aboveLayer = map.createStaticLayer("above_player", tileset);
-        this.tprightlayer = map.createStaticLayer("tpright", tileset);
-        this.tpupLayer = map.createStaticLayer("tpup", tileset);
-        this.tpdownLayer = map.createStaticLayer("tpdown", tileset);
-        this.tpleftLayer = map.createStaticLayer("tpleft", tileset);
+        this.floorLayer = map.createLayer("floor", tileset,0, 0);
+        this.wallsLayer = map.createLayer("walls", tileset, 0, 0);
+        this.aboveLayer = map.createLayer("above_player", tileset);
+        this.tprightlayer = map.createLayer("tpright", tileset);
+        this.tpupLayer = map.createLayer("tpup", tileset);
+        this.tpdownLayer = map.createLayer("tpdown", tileset);
+        this.tpleftLayer = map.createLayer("tpleft", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
         //this.bg_music = this.sound.add('bg_music', {mute: false, volume: 0.2, rate: 1.2, loop: true});
@@ -40,9 +40,17 @@ class Play extends Phaser.Scene {
         this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
         // this.player = new Player(this, 1119, 1187, "player-head"); //for starting player head right at body upgrade
         //create Enemy
-        const newEnemy1 = map.findObject("Objects", obj => obj.name === "Enemy");
-        this.enemy = new PatrolEnemy(this, newEnemy1.x,newEnemy1.y,'enemy1');
+        this.enemies = this.add.group();
+        let newEnemy1 = map.filterObjects("Objects", obj => obj.name === "EnemySpawn");
+        newEnemy1.map((tile) => {
+            this.enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
+            this.enemies.add(this.enemy);
+        });
+        
 
+
+        //const newEnemy2 = map.findObject("Objects", obj => obj.name === "Enemy1");
+        //this.enemy = new BasicEnemy(this, newEnemy2.x,newEnemy2.y,'newenemy');
 
         this.particleManager = this.add.particles('cross');
         this.emitterconfig = 
@@ -120,9 +128,8 @@ class Play extends Phaser.Scene {
         
         //collide against wall
         this.physics.add.collider(this.player, this.wallsLayer); 
-        this.physics.add.collider(this.enemy, this.wallsLayer);
-
-        this.physics.add.collider(this.player, this.enemy);
+        this.physics.add.collider(this.enemies, this.wallsLayer);
+        this.physics.add.collider(this.player, this.enemies);
         // Jump Implementation
         this.jumpTiles = this.add.group();
 

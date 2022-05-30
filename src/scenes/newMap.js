@@ -9,7 +9,6 @@ class newMap extends Phaser.Scene {
         
     create() {
     }
-    
     update(){
 
     }
