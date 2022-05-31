@@ -19,7 +19,6 @@ class Menu extends Phaser.Scene {
 
     create() {
         //for developer use to skip menu
-
         this.scene.start('playScene');
 
 

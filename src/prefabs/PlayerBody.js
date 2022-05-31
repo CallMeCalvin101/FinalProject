@@ -15,6 +15,7 @@ class PlayerBody extends Player {
         this.attackDuration_MAX = 25;
         //this.body.setCollideWorldBounds(true);
         this.setDamping(true);
+        this.isteleport = false; 
     }
 
     update() {
