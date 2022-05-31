@@ -226,7 +226,7 @@ class Play extends Phaser.Scene {
         if (distance < 300)
             {
             //this.enemy.body.reset(this.player.x, this.player.y);
-              this.physics.moveToObject(this.enemy, this.player, 100);
+              this.physics.moveToObject(this.enemy, this.player, 300);
             //this.player.body.reset(50,50);
             }
         };
