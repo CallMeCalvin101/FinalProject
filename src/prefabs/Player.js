@@ -17,19 +17,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //this.body.setCollideWorldBounds(true);
         this.setDamping(true);
         this.isupright = true;
+        this.isteleport = false; //teleport state - animation depends on this property
     }
-
-    preload(){
-    }
-
+    
     create(){
     }
 
     update() {
-        //update isupright variable (depends on rotation)
-        if((-1.5 < this.rotation) && (this.rotation < 1.5)){
-            this.isupright = true;
-        } else { this.isupright = false;}
+        if((-1.5 < this.rotation) && (this.rotation < 1.5)){ this.isupright = true;}
+        else { this.isupright = false;}
 
         // Controls Attack Logic
         if (this.isAttack == true && this.attackDuration > 0) {
@@ -41,11 +37,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.setMaxVelocity(this.maxSpeed);
         }
         
-        // Controls Player Movement
+
+        // Controls Player Movement ANIMATION
         if (keyW.isDown) {
             this.setAccelerationY(-this.walkAcceleration);
             //if/else chooses which animation to play based on if player is upside down or not
-            if((-1.5 < this.rotation) && (this.rotation < 1.5)){ 
+            if(this.isupright){ 
                 if(!this.anims.isPaused){ //if start of game
                     this.play('rollup', true)
                  } else {
@@ -62,7 +59,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
     } else if (keyS.isDown) {
             this.setAccelerationY(this.walkAcceleration);
-            if((-1.5 < this.rotation) && (this.rotation < 1.5)){
+            if(this.isupright){
                 if(!this.anims.isPaused){
                     this.playReverse('rollup', true)
                  } else {
@@ -78,17 +75,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 }
         }
         } else {
-            //both uprolling and downrolling animation are stopped 
-            //if key is W or S key is not being pressed down
+            //both uprolling and downrolling animation are stopped if key is W or S key is not being pressed down
             this.anims.pause();
-            // console.log("currentframe :", this.anims.currentFrame);
-            // this.rollup.paused = true;
-            // var hasAnim = this.anims.exists('rollup');
-            // hasAnim.pause();
-            
+            // console.log("currentframe :", this.anims.currentFrame);   
         }
 
-
+        // SETS PLAYER ACCELERATION/VELOCITY
         if (keyA.isDown) {
             this.setAccelerationX(-this.walkAcceleration);
             this.setRotation(this.rotation - (5.5*(Math.PI/180)));
@@ -108,12 +100,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.setAccelerationX(0);
             this.setDragX(this.drag);
         }
-
-        if (Phaser.Input.Keyboard.JustUp(keyW)) {
-            console.log('w just up')
-        }
-
     }
+
     attack(px, py, hitbox) {
         if (this.isAttack != false) {
             return;

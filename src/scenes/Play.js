@@ -4,6 +4,7 @@ class Play extends Phaser.Scene {
     }
 
     preload(){
+        this.load.spritesheet('teleport', './assets/teleportanim.png', {frameWidth: 224, frameHeight: 32, startFrame: 0, endFrame: 4}); 
         this.load.spritesheet('vertroll', './assets/vertroll.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 8}); 
         this.load.spritesheet('horizroll', './assets/horizontalroll.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 8}); 
         this.load.audio('bg_music', './assets/bg_music.wav');
@@ -39,6 +40,9 @@ class Play extends Phaser.Scene {
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
         this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
         // this.player = new Player(this, 1119, 1187, "player-head"); //for starting player head right at body upgrade
+        this.dummy = this.physics.add.sprite(this.player.x, this.player.y, 'teleport').setOrigin(0.07,0.45);
+        this.dummy.setAlpha(0);
+        // dummy.body.setCollideWorldBounds(true);
         //create Enemy
         this.enemies = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
@@ -91,8 +95,13 @@ class Play extends Phaser.Scene {
             frameRate: 12,
             repeat: -1
         });
+        this.anims.create({
+            key: 'teleport',
+            frames: this.anims.generateFrameNumbers('teleport', {start: 0, end: 4, first: 0}),
+            frameRate: 19,
+            repeat: 0
+        });
 
-    
         
         // Define Keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -164,17 +173,28 @@ class Play extends Phaser.Scene {
         // Implements collisions between player and tiles
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
         function playerJump (player, tile) {
-            player.setAlpha(0);
+            this.player.setAlpha(0); 
+            //alpha set to 0 so that player dissapears as camera lingers for 200ms before switching to new player position(after teleport)
+            this.dummy.setAlpha(0.7); 
+            //make teleport anim visible
+            player.isteleport = true;
+            if (tile.direction == "left") {
+                this.dummy.setAngle(180)
+            } else if (tile.direction == "right") {
+                this.dummy.setAngle(0)
+            } else if (tile.direction == "up") {
+                this.dummy.setAngle(270)
+            } else if (tile.direction == "down") {
+                this.dummy.setAngle(90)
+            }
             //set position of from emitter and make explode
             this.fromEmitter.setPosition(tile.x + 16, tile.y-16);
             this.fromEmitter.frequency = 1;
             this.fromEmitter.explode();
-            this.time.delayedCall(100, ()=>{tile.jump(player);});
-            // tile.jump(player);
+            this.time.delayedCall(200, ()=>{tile.jump(player);});
         }
 
-      
-      
+        
         /*
         this.temp = new JumpTile(this, 0, 0, "player-body", "right");
         this.physics.add.collider(this.player, this.tprightlayer, () => {
@@ -193,6 +213,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.tpleftLayer, () => {
             this.left.jump(this.player);
         }); */
+        
 
         // Mouse Indicators
         this.attackIndicator = this.physics.add.image(100, 100, 'indicator').setOrigin(0, 0.5);
@@ -217,6 +238,11 @@ class Play extends Phaser.Scene {
     
 
     update() {
+        this.dummy.setPosition(this.player.x, this.player.y); //dummy sprite used for telport anim - should track where player is
+        if(this.player.isteleport){ this.dummy.play('teleport', true); }
+        else{
+            this.dummy.play('teleport', false)};
+
         this.updateIndicator();
         this.player.update();
         this.enemy.update();
@@ -276,13 +302,23 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.enemy);
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
         function playerJump (player, tile) {
-            player.setAlpha(0);
+            this.player.setAlpha(0);
+            this.dummy.setAlpha(0.7);
+            player.isteleport = true;
+            if (tile.direction == "left") {
+                this.dummy.setAngle(180)
+            } else if (tile.direction == "right") {
+                this.dummy.setAngle(0)
+            } else if (tile.direction == "up") {
+                this.dummy.setAngle(270)
+            } else if (tile.direction == "down") {
+                this.dummy.setAngle(90)
+            }
             //set position of from emitter and make explode
             this.fromEmitter.setPosition(tile.x + 16, tile.y-16);
             this.fromEmitter.frequency = 1;
             this.fromEmitter.explode();
-            this.time.delayedCall(100, ()=>{tile.jump(player);});
-            // tile.jump(player);
+            this.time.delayedCall(200, ()=>{tile.jump(player);});
         }
     }
     
