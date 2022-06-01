@@ -38,11 +38,11 @@ class Play extends Phaser.Scene {
         
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        //this.player = new Player(this, newplayer.x, newplayer.y);
+        this.player = new Player(this, newplayer.x, newplayer.y);
 
-        this.player = new PlayerSword(this, newplayer.x, newplayer.y);
+        //this.player = new PlayerSword(this, newplayer.x, newplayer.y);
 
-        // this.player = new Player(this, 1119, 1187, "player-head"); //for starting player head right at body upgrade
+        //this.player = new Player(this, 1119, 1187, "player-head"); //for starting player head right at body upgrade
         this.dummy = this.physics.add.sprite(this.player.x, this.player.y, 'teleport').setOrigin(0.07,0.45);
         this.dummy.setAlpha(0);
         // dummy.body.setCollideWorldBounds(true);
@@ -220,7 +220,7 @@ class Play extends Phaser.Scene {
         this.camera.setBounds(0, 0, 5000, 5000);
 
         //enemy
-        this.e1 = new Enemies(this, 'enemyhead', 3, true);
+        // this.e1 = new Enemies(this, 'enemyhead', 3, true);
 
         this.obstacleGroup = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
