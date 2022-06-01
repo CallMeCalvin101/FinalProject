@@ -38,7 +38,10 @@ class Play extends Phaser.Scene {
         
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
-        this.player = new Player(this, newplayer.x, newplayer.y, "player-head");
+        //this.player = new Player(this, newplayer.x, newplayer.y);
+
+        this.player = new PlayerSword(this, newplayer.x, newplayer.y);
+
         // this.player = new Player(this, 1119, 1187, "player-head"); //for starting player head right at body upgrade
         this.dummy = this.physics.add.sprite(this.player.x, this.player.y, 'teleport').setOrigin(0.07,0.45);
         this.dummy.setAlpha(0);
@@ -46,7 +49,7 @@ class Play extends Phaser.Scene {
         //create Enemy
         this.enemies = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
-        })
+        });
         let newEnemy1 = map.filterObjects("Objects", obj => obj.name === "EnemySpawn");
         newEnemy1.map((tile) => {
             this.enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
@@ -129,19 +132,35 @@ class Play extends Phaser.Scene {
         this.upgradeBody = new Upgrade(this, newbody.x, newbody.y, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
+        // Player Attack Handeling
+        this.playerAttacks = this.add.group({
+            runChildUpdate: true
+        });
 
         // Adds Pointer Down Event for Player Attacks
         this.input.on('pointerdown', () => {
-            this.player.attack(gamePointer.worldX, gamePointer.worldY, this.hitbox);
+            this.player.attack(gamePointer.worldX, gamePointer.worldY, this.playerAttacks);
         }, this);
+
+        // Implements collisions between player attacks and enemies
+        this.physics.add.overlap(this.playerAttacks, this.enemies, attackHit, null, this);
+        function attackHit (attack, enemy) {
+            enemy.destroy();
+        }
+
 
         this.checkUpgrade();
         
+
+
         //collide against wall
         this.physics.add.collider(this.player, this.wallsLayer); 
         this.physics.add.collider(this.enemies, this.wallsLayer);
         this.physics.add.collider(this.player, this.enemies);
         this.physics.add.collider(this.enemies, this.enemies);
+
+
+
         // Jump Implementation
         this.jumpTiles = this.add.group();
 
@@ -194,38 +213,11 @@ class Play extends Phaser.Scene {
             this.time.delayedCall(200, ()=>{tile.jump(player);});
         }
 
-        
-        /*
-        this.temp = new JumpTile(this, 0, 0, "player-body", "right");
-        this.physics.add.collider(this.player, this.tprightlayer, () => {
-            this.temp.jump(this.player);
-        });
-        //up
-        this.up = new JumpTile(this, 0, 0, "player-body", "up");
-        this.physics.add.collider(this.player, this.tpupLayer, () => {
-            this.up.jump(this.player);
-        });
-        this.down = new JumpTile(this, 0, 0, "player-body", "down");
-        this.physics.add.collider(this.player, this.tpdownLayer, () => {
-            this.down.jump(this.player);
-        });
-        this.left = new JumpTile(this, 0, 0, "player-body", "left");
-        this.physics.add.collider(this.player, this.tpleftLayer, () => {
-            this.left.jump(this.player);
-        }); */
-        
-
-        // Mouse Indicators
-        this.attackIndicator = this.physics.add.image(100, 100, 'indicator').setOrigin(0, 0.5);
-        this.hitbox = this.physics.add.image(100, 100, 'sword-hitbox').setOrigin(0, 0.5);
 
         // camera
         this.camera = this.cameras.main;
         this.camera.startFollow(this.player);
         this.camera.setBounds(0, 0, 5000, 5000);
-         
-        this.ind = this.physics.add.image(this, 100, 100, 'indicator', 0);
-        //create groups for wall objects
 
         //enemy
         this.e1 = new Enemies(this, 'enemyhead', 3, true);
@@ -243,7 +235,7 @@ class Play extends Phaser.Scene {
         else{
             this.dummy.play('teleport', false)};
 
-        this.updateIndicator();
+        //this.updateIndicator();
         this.player.update();
         this.enemy.update();
         // enemy kill player
@@ -260,7 +252,7 @@ class Play extends Phaser.Scene {
         //////////////////
     }
 
-    updateIndicator() {
+    /*updateIndicator() {
         this.attackIndicator.setPosition(this.player.x, this.player.y);
 
         // Gets Angle for Cursor
@@ -273,7 +265,7 @@ class Play extends Phaser.Scene {
         }
 
         this.attackIndicator.setRotation(this.angle);
-    }
+    }*/
 
 
     checkUpgrade() {

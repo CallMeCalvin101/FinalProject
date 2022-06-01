@@ -73,12 +73,12 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
         const enemyBlocked = this.body.blocked
         
         if(enemyBlocked.down || enemyBlocked.up || enemyBlocked.left || enemyBlocked.right){
-            console.log(enemyBlocked);
+            //console.log(enemyBlocked);
             let possibleDirections = []
             for (const direction in enemyBlocked){
                 possibleDirections.push(direction)
             }
-            console.log(possibleDirections);
+            //console.log(possibleDirections);
             const newDirection = possibleDirections [Math.floor(Math.random()*4)+1]
             switch(newDirection){
                 case 'up':

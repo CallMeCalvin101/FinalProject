@@ -4,7 +4,7 @@ class PlayerSword extends Player {
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
-        // Set Properties
+        // Set Properties for Player
         this.walkAcceleration = 900;
         this.maxSpeed = 350;
         this.setMaxVelocity(this.maxSpeed);
@@ -13,8 +13,15 @@ class PlayerSword extends Player {
         this.isAttack = false;
         this.attackDuration = 0;
         this.attackDuration_MAX = 25;
+        this.scene = scene;
         //this.body.setCollideWorldBounds(true);
         this.setDamping(true);
+
+        // Set Properties for Sword Attack
+        this.swordOffset = 100;
+        this.rotate = 32;
+        this.numHitbox = 7;
+        this.hitboxDur = this.attackDuration_MAX;
     }
 
     update() {
@@ -64,8 +71,8 @@ class PlayerSword extends Player {
         }
 
         this.dirY = 1;
-        this.dy = py - this.y;
-        if (this.dy < 0) {
+        this.dy =  - (py - this.y);
+        if (this.dy > 0) {
             this.dirY = -1;
         }
 
@@ -75,9 +82,18 @@ class PlayerSword extends Player {
         this.attackDuration = this.attackDuration_MAX;
         this.setMaxVelocity(this.dashSpeed);
         this.setVelocityX(this.dirX * this.dashSpeed * Math.cos(this.angle));
-        this.setVelocityY(this.dirX * this.dashSpeed * Math.sin(this.angle));
+        this.setVelocityY((-1) * this.dirX * this.dashSpeed * Math.sin(this.angle));
+        
+        // Handles the attack hitbox
+        let dTheta = 2 * Math.PI / this.rotate;
+        let curAngle = this.angle - (this.numHitbox / 2 * dTheta);
 
-       hitbox.setPosition(this.x, this.y);
-       hitbox.setRotation(this.angle);
+        for (let i = 0; i < this.numHitbox; i++) {
+            let swordCenterX = this.dirX * this.swordOffset * Math.cos(curAngle);
+            let swordCenterY = (-1) * this.dirX * this.swordOffset * Math.sin(curAngle);
+            curAngle += dTheta;
+            let attack = new Hitbox(this.scene, this.x + swordCenterX, this.y + swordCenterY, "sword-hitbox", this.hitboxDur);
+            hitbox.add(attack);
+        }
     }
 }
