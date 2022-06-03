@@ -31,16 +31,22 @@ class PlayerBody extends Player {
 
         // Controls Player Movement
         if (keyW.isDown) {
+            this.play('frontjump');
             this.setAccelerationY(-this.walkAcceleration);
         } else if (keyS.isDown) {
+            this.play('backjump');
             this.setAccelerationY(this.walkAcceleration);
         }
 
         if (keyA.isDown) {
+            this.play('leftjump');
             this.setAccelerationX(-this.walkAcceleration);
         } else if (keyD.isDown) {
+            this.play('rightjump');
             this.setAccelerationX(this.walkAcceleration);
         }
+
+            
 
         if (keyW.isUp && keyS.isUp) {
             this.setAccelerationY(0);

@@ -5,8 +5,13 @@ class Play extends Phaser.Scene {
 
     preload(){
         this.load.spritesheet('teleport', './assets/teleportanim.png', {frameWidth: 224, frameHeight: 32, startFrame: 0, endFrame: 4}); 
-        this.load.spritesheet('vertroll', './assets/vertroll.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 8}); 
-        this.load.spritesheet('horizroll', './assets/horizontalroll.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 8}); 
+        this.load.spritesheet('vertroll', './assets/player/h-v.png', {frameWidth: 34, frameHeight: 32, startFrame: 0, endFrame: 3}); 
+        this.load.spritesheet('horizroll', './assets/player/h-s.png', {frameWidth: 34, frameHeight: 32, startFrame: 0, endFrame: 3}); 
+        this.load.spritesheet('f-jump', './assets/player/front-ani.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('b-jump', './assets/player/back-ani.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('l-jump', './assets/player/s-l.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('r-jump', './assets/player/s-r.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+
         this.load.audio('bg_music', './assets/bg_music.wav');
         this.load.spritesheet('wall', './assets/canon4.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 7});       
     }
@@ -86,18 +91,46 @@ class Play extends Phaser.Scene {
          
 
         //player anims
+        //head animation
         this.anims.create({
             key: 'rollup',
-            frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 7, first: 0}),
+            frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 3, first: 0}),
             frameRate: 12,
             repeat: -1
         });
         this.anims.create({
             key: 'sideroll',
-            frames: this.anims.generateFrameNumbers('horizroll', {start: 0, end: 7, first: 0}),
+            frames: this.anims.generateFrameNumbers('horizroll', {start: 0, end: 3, first: 0}),
             frameRate: 12,
             repeat: -1
         });
+        //player body
+        this.anims.create({
+            key: 'frontjump',
+            frames: this.anims.generateFrameNumbers('f-jump', {start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'bcakjump',
+            frames: this.anims.generateFrameNumbers('b-jump', {start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'leftjump',
+            frames: this.anims.generateFrameNumbers('l-jump', {start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'rightjump',
+            frames: this.anims.generateFrameNumbers('r-jump', {start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+        
+        //teleport 
         this.anims.create({
             key: 'teleport',
             frames: this.anims.generateFrameNumbers('teleport', {start: 0, end: 4, first: 0}),
