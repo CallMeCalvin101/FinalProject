@@ -65,8 +65,8 @@ class PlayerBody extends Player {
         }
 
         this.dirY = 1;
-        this.dy = py - this.y;
-        if (this.dy < 0) {
+        this.dy =  - (py - this.y);
+        if (this.dy > 0) {
             this.dirY = -1;
         }
 
@@ -76,6 +76,6 @@ class PlayerBody extends Player {
         this.attackDuration = this.attackDuration_MAX;
         this.setMaxVelocity(this.dashSpeed);
         this.setVelocityX(this.dirX * this.dashSpeed * Math.cos(this.angle));
-        this.setVelocityY(this.dirX * this.dashSpeed * Math.sin(this.angle));
+        this.setVelocityY((-1) * this.dirX * this.dashSpeed * Math.sin(this.angle));
     }
 }
