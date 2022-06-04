@@ -10,11 +10,12 @@ class Menu extends Phaser.Scene {
         this.load.image('bt1', '/assets/bt1.png');
         this.load.image('bt2', '/assets/bt2.png');
         this.load.image('black', '/assets/blackscreen.png');
-
+        this.load.audio('bg', './assets/bg.mp3');
+        this.load.audio('bg_layer', './assets/bg_layer.mp3');
         this.load.image('titletext', '/assets/titletext.png');
-
         this.load.audio('deathmusic2', './assets/deathmusic2.wav');
         this.load.audio('selectsound', './assets/selectsound.wav');
+        this.load.audio('hit', './assets/hit.mp3');
     }
 
     create() {
@@ -22,13 +23,13 @@ class Menu extends Phaser.Scene {
         //this.scene.start('playScene');
 
 
-        this.deathmusic2 = this.sound.add('deathmusic2', {
+        this.bgmusic = this.sound.add('bg', {
             mute: false,
             volume: 0.2,
             rate: 1,
             loop: true 
         });
-        this.deathmusic2.play();
+        this.bgmusic.play();
 
         //anim not working :(
         this.anims.create({
@@ -63,7 +64,7 @@ class Menu extends Phaser.Scene {
         });
         
         this.nextButton.on('pointerdown', () => {
-            this.deathmusic2.pause();
+            this.sound.play('hit');
             this.sound.play('selectsound');
             this.scene.start('playScene');
         });

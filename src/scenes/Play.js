@@ -13,9 +13,18 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('r-jump', './assets/player/s-r.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
 
         this.load.audio('bg_music', './assets/bg_music.wav');
+        this.load.audio('bg', './assets/bg.mp3');
+        this.load.audio('fizz', './assets/fizz.mp3');
+        this.load.audio('softbell', './assets/softbell.mp3');
+        this.load.audio('hit', './assets/hit.mp3');
+        this.load.audio('bg_layer', './assets/bg_layer.mp3');
+        this.load.audio('upgrade', './assets/upgrade.mp3');
+        this.load.audio('wind', './assets/wind.mp3');
+        this.load.audio('upgrade', './assets/upgrade.mp3');
         this.load.spritesheet('wall', './assets/canon4.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 7});       
     }
     create() {
+        this.sound.play('bg_layer', {volume:0.4, loop: true});
         // tilemap and collision
         const map = this.make.tilemap({key:"map", tileWidth:32, tileHeight:32});
         const tileset = map.addTilesetImage("tiles1","tiles");
@@ -317,6 +326,7 @@ class Play extends Phaser.Scene {
             this.player = new PlayerBody(this, this.spawnX, this.spawnY);
             this.resetPlayer();
             elem.destroy();
+            this.sound.play('upgrade');
         }
     }
 
