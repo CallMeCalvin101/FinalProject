@@ -14,6 +14,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.attackDuration = 0;
         this.attackDuration_MAX = 50;
         this.setBounce(0.5);
+        this.health = 5;
+        this.isDead = false;
         //this.body.setCollideWorldBounds(true);
         this.setDamping(true);
         this.isupright = true;
@@ -127,5 +129,39 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setMaxVelocity(this.dashSpeed);
         this.setVelocityX(this.dirX * this.dashSpeed * Math.cos(this.angle));
         this.setVelocityY((-1) * this.dirX * this.dashSpeed * Math.sin(this.angle));
+    }
+
+    lowerHP(num) {
+        this.health -= num;
+
+        if (this.health <= 0) {
+            this.isDead = true;
+        }
+    }
+
+    getDead() {
+        return this.isDead;
+    }
+
+    collideWithEnemy(enemy) {
+        let mx = enemy.x - this.x;
+        if (mx < 0) {mx *= -1;}
+
+        let my = enemy.y - this.y;
+        if (my < 0) {my *= -1;}
+
+        if (mx > my) {
+            if (this.x < enemy.x) {
+                this.setVelocityX(-1 * this.maxSpeed)
+            } else {
+                this.setVelocityX(this.maxSpeed)
+            }
+        } else {
+            if (this.y < enemy.y) {
+                this.setVelocityY(-1 * this.maxSpeed)
+            } else {
+                this.setVelocityY(this.maxSpeed)
+            }
+        }
     }
 }
