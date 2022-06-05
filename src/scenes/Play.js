@@ -193,6 +193,9 @@ class Play extends Phaser.Scene {
         this.upgradeBody = new Upgrade(this, newbody.x, newbody.y, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
+        this.upgradeSword = new Upgrade(this, 500, 500, 'upgrade:sword', "sword");
+        this.upgradeGroup.add(this.upgradeSword);
+
         // Player Attack Handeling
         this.playerAttacks = this.add.group({
             runChildUpdate: true
@@ -207,25 +210,7 @@ class Play extends Phaser.Scene {
         this.physics.add.overlap(this.playerAttacks, this.enemies, attackHit, null, this);
         function attackHit (attack, enemy) {
             enemy.destroy();
-        }
-
-
-        this.checkUpgrade();
-        
-
-
-        //collide against wall
-        this.physics.add.collider(this.player, this.wallsLayer); 
-        this.physics.add.collider(this.enemies, this.wallsLayer);
-        //this.physics.add.collider(this.player, this.enemies);
-        for (let enemy of this.enemies.getChildren()) {
-            this.physics.add.collider(this.player, enemy, () => {
-                this.player.collideWithEnemy(enemy);
-            }, null, this);
-        }
-        this.physics.add.collider(this.enemies, this.enemies);
-
-
+        }     
 
         // Jump Implementation
         this.jumpTiles = this.add.group();
@@ -255,36 +240,12 @@ class Play extends Phaser.Scene {
             this.jumpTiles.add(downTile);
         });
 
-        // Implements collisions between player and tiles
-        this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
-        function playerJump (player, tile) {
-            this.robotEmitter.pause()
-            this.player.setAlpha(0); 
-            //alpha set to 0 so that player dissapears as camera lingers for 200ms before switching to new player position(after teleport)
-            this.dummy.setAlpha(0.7); 
-            //make teleport anim visible
-            player.isteleport = true;
-            if (tile.direction == "left") {
-                this.dummy.setAngle(180)
-            } else if (tile.direction == "right") {
-                this.dummy.setAngle(0)
-            } else if (tile.direction == "up") {
-                this.dummy.setAngle(270)
-            } else if (tile.direction == "down") {
-                this.dummy.setAngle(90)
-            }
-            //set position of from emitter and make explode
-            this.fromEmitter.setPosition(tile.x + 16, tile.y-16);
-            this.fromEmitter.frequency = 1;
-            this.fromEmitter.explode();
-            this.time.delayedCall(200, ()=>{tile.jump(player);});
-        }
-
 
         // camera
         this.camera = this.cameras.main;
-        this.camera.startFollow(this.player);
         this.camera.setBounds(0, 0, 5000, 5000);
+
+        this.resetPlayer();
 
         //enemy
         // this.e1 = new Enemies(this, 'enemyhead', 3, true);
@@ -352,11 +313,17 @@ class Play extends Phaser.Scene {
     }
 
     upgradeEvent(elem) {
+        this.spawnX = this.player.x;
+        this.spawnY = this.player.y;
         if (elem.getType() == 'body') {
-            this.spawnX = this.player.x;
-            this.spawnY = this.player.y;
             this.player.destroy();
             this.player = new PlayerBody(this, this.spawnX, this.spawnY);
+            this.resetPlayer();
+            elem.destroy();
+            this.sound.play('upgrade');
+        } else if (elem.getType() == 'sword') {
+            this.player.destroy();
+            this.player = new PlayerSword(this, this.spawnX, this.spawnY);
             this.resetPlayer();
             elem.destroy();
             this.sound.play('upgrade');
@@ -365,9 +332,18 @@ class Play extends Phaser.Scene {
 
     resetPlayer() {
         this.camera.startFollow(this.player);
-        this.physics.add.collider(this.player, this.wallsLayer);
-        this.physics.add.collider(this.player, this.enmies);
-        this.physics.add.collider(this.player, this.enemy);
+
+        // Adds Collisions to Walls & Enemies
+        this.physics.add.collider(this.player, this.wallsLayer); 
+        this.physics.add.collider(this.enemies, this.wallsLayer);
+        for (let enemy of this.enemies.getChildren()) {
+            this.physics.add.collider(this.player, enemy, () => {
+                this.player.collideWithEnemy(enemy);
+            }, null, this);
+        }
+        this.physics.add.collider(this.enemies, this.enemies);
+
+        // Adds Collisions to Jumptiles
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
         function playerJump (player, tile) {
             this.player.setAlpha(0);
@@ -388,6 +364,8 @@ class Play extends Phaser.Scene {
             this.fromEmitter.explode();
             this.time.delayedCall(200, ()=>{tile.jump(player);});
         }
+
+        this.checkUpgrade();
     }
     
 }
