@@ -88,6 +88,25 @@ class Play extends Phaser.Scene {
         this.fromEmitter = this.particleManager.createEmitter(this.emitterconfig);
         this.fromEmitter.explode();
 
+        // var angleConfig = {min: 83, max: 97};
+        // var speedConfig = {min: 0, max: 110};
+        // var scaleConfig = {start: 0.2, end: 0, ease: 'Linear'};
+        // var alphaConfig = {start: 1, end: 0, ease: 'Linear'};
+        this.robotEmitConfig = 
+        {
+            x: this.player.x,
+            y: this.player.y,
+            lifespan: 120,
+            gravityY: 700,
+            speed: {min: 90, max: 120},
+            angle: {min: 85, max: 95},
+            scale: {start: 0.3, end: 0, ease: 'Linear'},
+            alpha: {start: 1, end: 0.5, ease: 'Linear'},
+            blendMode: 'SCREEN'
+        }
+        this.robotEmitter = this.add.particles('particleblue').createEmitter(this.robotEmitConfig);
+        this.robotEmitter.pause();
+
         
        // const newEnemy2 = map.findObject("Objects", obj => obj.type === "Enemy");
        // this.enemies = this.add.group();
@@ -234,6 +253,7 @@ class Play extends Phaser.Scene {
         // Implements collisions between player and tiles
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
         function playerJump (player, tile) {
+            this.robotEmitter.pause()
             this.player.setAlpha(0); 
             //alpha set to 0 so that player dissapears as camera lingers for 200ms before switching to new player position(after teleport)
             this.dummy.setAlpha(0.7); 
@@ -270,12 +290,19 @@ class Play extends Phaser.Scene {
 
     }
     
-
+    
     update() {
         this.dummy.setPosition(this.player.x, this.player.y); //dummy sprite used for telport anim - should track where player is
-        if(this.player.isteleport){ this.dummy.play('teleport', true); }
+        this.fromEmitter.setPosition(this.player.x, this.player.y);
+        this.robotEmitter.setPosition(this.player.x, this.player.y+25);
+        if(this.player.isteleport){ 
+            this.dummy.play('teleport', true);
+            this.robotEmitter.setAlpha(0);
+        }
         else{
-            this.dummy.play('teleport', false)};
+            this.dummy.play('teleport', false)
+            this.robotEmitter.setAlpha(1);
+        }
 
         //this.updateIndicator();
         this.player.update();
@@ -313,6 +340,7 @@ class Play extends Phaser.Scene {
     checkUpgrade() {
         for (let type of this.upgradeGroup.getChildren()) {
             this.physics.add.collider(this.player, type, () => {
+                this.robotEmitter.resume();
                 this.upgradeEvent(type);
             }, null, this);
         }

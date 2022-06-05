@@ -20,7 +20,7 @@ class Menu extends Phaser.Scene {
 
     create() {
         //for developer use to skip menu
-        //this.scene.start('playScene');
+        this.scene.start('playScene');
 
 
         this.bgmusic = this.sound.add('bg', {
