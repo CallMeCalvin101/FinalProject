@@ -191,6 +191,7 @@ class Play extends Phaser.Scene {
         this.upgradeBody = new Upgrade(this, newbody.x, newbody.y, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
+
         //turret
         this.turrets = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
@@ -198,6 +199,10 @@ class Play extends Phaser.Scene {
         const turret = map.findObject("Objects", obj => obj.type === "gun");
         this.turret1 = new Wallturret(this, turret.x,turret.y, 'Gun');
         this.turrets.add(this.turret1);
+
+        this.enemyAttacks = this.add.group({
+            runChildUpdate: true
+        });
         
         
         this.upgradeSword = new Upgrade(this, 500, 500, 'upgrade:sword', "sword");
@@ -293,25 +298,10 @@ class Play extends Phaser.Scene {
             //this.player.body.reset(50,50);
             }
         };
-       
-        //turret bullet
-        let distance1 = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
-        if (distance1 < 300)
-    {
-        if ( this.nextFire && this.bullets.countDead() > 0)
-        {
-            this.nextFire = this.game.time.now + this.fireRate;
 
-            var bullet = this.bullets.getFirstDead();
-
-            bullet.reset(this.turret.x, this.turret.y);
-
-            bullet.rotation = this.game.physics.arcade.moveToObject(bullet, this.player, 500);
+        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.turret1.x, this.turret1.y) < this.turret1.range) {
+            this.turret1.attack(this.player.x, this.player.y, this.enemyAttacks);
         }
-    }
-
-
-        //////////////////
     }
 
     /*updateIndicator() {

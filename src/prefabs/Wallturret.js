@@ -10,11 +10,15 @@ class Wallturret extends Phaser.Physics.Arcade.Sprite {
         //this.tint = Math.random() * 0xFFFFFF;   // randomize tint
         this.alpha = 1;
         this.textureKey = textureKey;
-
-
-
+        this.range = 300;
     }
 
-    update() {
+    attack(px, py, bullets) {
+        // Grabs the angle by calculating this dist to x, y
+        let dx = px - this.x;
+        let dy =  - (py - this.y);
+
+        let bullet = new Hitbox(this.scene, this.x, this.y, "sword-hitbox", 0, 200, dx, dy);
+        bullets.add(bullet);
     }
 }
