@@ -247,6 +247,8 @@ class Play extends Phaser.Scene {
 
         this.resetPlayer();
 
+        this.HP = new HpUi(this);
+
         //enemy
         // this.e1 = new Enemies(this, 'enemyhead', 3, true);
 
@@ -328,6 +330,7 @@ class Play extends Phaser.Scene {
             elem.destroy();
             this.sound.play('upgrade');
         }
+        this.HP.gainHP(1);
     }
 
     resetPlayer() {
@@ -339,6 +342,7 @@ class Play extends Phaser.Scene {
         for (let enemy of this.enemies.getChildren()) {
             this.physics.add.collider(this.player, enemy, () => {
                 this.player.collideWithEnemy(enemy);
+                this.HP.lowerHP(2);
             }, null, this);
         }
         this.physics.add.collider(this.enemies, this.enemies);
@@ -367,5 +371,6 @@ class Play extends Phaser.Scene {
 
         this.checkUpgrade();
     }
+    
     
 }

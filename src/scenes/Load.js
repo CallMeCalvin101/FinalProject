@@ -24,6 +24,7 @@ class Load extends Phaser.Scene {
         this.load.image('upgrade:sword', 'TempSword.png');
         this.load.image('sword-hitbox', 'SwordHitbox.png')
         this.load.image('indicator', 'Indicator.png');
+        this.load.image('heart', 'health/h1.png');
         //this.load.image('map', 'map.png');
         this.load.image("tiles","tiles.png");
         this.load.tilemapTiledJSON('map',"map1.json")
