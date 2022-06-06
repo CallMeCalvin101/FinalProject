@@ -297,8 +297,6 @@ class Play extends Phaser.Scene {
             //this.enemy.body.reset(this.player.x, this.player.y);
         //      this.physics.moveToObject(this.enemy, this.player, 300);
             //this.player.body.reset(50,50);
-            }
-        };
 
         if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.turret1.x, this.turret1.y) < this.turret1.range) {
             this.turret1.attack(this.player.x, this.player.y, this.enemyAttacks);

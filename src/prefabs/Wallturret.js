@@ -18,7 +18,7 @@ class Wallturret extends Phaser.Physics.Arcade.Sprite {
         let dx = px - this.x;
         let dy =  - (py - this.y);
 
-        let bullet = new Hitbox(this.scene, this.x, this.y, "sword-hitbox", 0, 200, dx, dy);
+        let bullet = new Hitbox(this.scene, this.x, this.y, "sword-hitbox", 120, 200, dx, dy);
         bullets.add(bullet);
     }
 }
