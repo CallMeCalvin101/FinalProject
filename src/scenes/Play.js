@@ -11,7 +11,9 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('b-jump', './assets/player/back-ani.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('l-jump', './assets/player/s-l.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('r-jump', './assets/player/s-r.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
-
+        this.load.spritesheet('health-blink', './assets/health/health-blink.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('health-gone', './assets/health/health-gone.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 4});
+        this.load.spritesheet('health-on', './assets/health/health-on.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 3});
         this.load.audio('bg_music', './assets/bg_music.wav');
         this.load.audio('bg', './assets/bg.mp3');
         this.load.audio('fizz', './assets/fizz.mp3');
@@ -164,6 +166,27 @@ class Play extends Phaser.Scene {
             frameRate: 19,
             repeat: 0
         });
+
+        //health
+        this.anims.create({
+            key: 'healthblink',
+            frames: this.anims.generateFrameNumbers('health-blink', {start: 0, end: 5, first: 0}),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'healthgone',
+            frames: this.anims.generateFrameNumbers('health-gone', {start: 0, end: 4, first: 0}),
+            frameRate: 5,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'healthon',
+            frames: this.anims.generateFrameNumbers('health-on', {start: 0, end: 3, first: 0}),
+            frameRate: 5,
+            repeat: 0
+        });
+
 
         
         // Define Keys
