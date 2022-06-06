@@ -323,7 +323,18 @@ class Play extends Phaser.Scene {
 
         if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.turret1.x, this.turret1.y) < this.turret1.range) {
             this.turret1.attack(this.player.x, this.player.y, this.enemyAttacks);
-        }
+            for (let hitbox of this.enemyAttacks.getChildren()) {
+                this.physics.add.collider(this.player, hitbox, () => {
+                    this.player.collideWithEnemy(hitbox);
+                    this.HP.lowerHP(2);
+                    hitbox.destroy();
+                }, null, this);
+
+                this.physics.add.collider(this.wallsLayer, hitbox, () => {
+                    hitbox.destroy();
+                }, null, this);
+            }
+        }     
     }
 
     /*updateIndicator() {
@@ -381,9 +392,10 @@ class Play extends Phaser.Scene {
         for (let enemy of this.enemies.getChildren()) {
             this.physics.add.collider(this.player, enemy, () => {
                 this.player.collideWithEnemy(enemy);
-                this.HP.lowerHP(1);
+                this.HP.lowerHP(2);
             }, null, this);
         }
+
         this.physics.add.collider(this.enemies, this.enemies);
 
         // Adds Collisions to Jumptiles
