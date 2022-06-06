@@ -297,6 +297,13 @@ class Play extends Phaser.Scene {
     
     
     update() {
+        if (this.HP.getDead() == true) {
+            this.player.alive = false;
+            this.time.delayedCall(3000, () => {
+                this.scene.start('menuScene');
+            });
+        }
+
         this.dummy.setPosition(this.player.x, this.player.y); //dummy sprite used for telport anim - should track where player is
         this.fromEmitter.setPosition(this.player.x, this.player.y);
         this.robotEmitter.setPosition(this.player.x, this.player.y+25);
@@ -309,17 +316,8 @@ class Play extends Phaser.Scene {
             this.robotEmitter.setAlpha(1);
         }
 
-        //this.updateIndicator();
         this.player.update();
         this.enemy.update();
-        // enemy kill player
-        //let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
-        //if (this.player.body.speed > 0){
-        //if (distance < 300)
-        //    {
-            //this.enemy.body.reset(this.player.x, this.player.y);
-        //      this.physics.moveToObject(this.enemy, this.player, 300);
-            //this.player.body.reset(50,50);
 
         if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.turret1.x, this.turret1.y) < this.turret1.range) {
             this.turret1.attack(this.player.x, this.player.y, this.enemyAttacks);
@@ -336,21 +334,6 @@ class Play extends Phaser.Scene {
             }
         }     
     }
-
-    /*updateIndicator() {
-        this.attackIndicator.setPosition(this.player.x, this.player.y);
-
-        // Gets Angle for Cursor
-        this.dx = gamePointer.worldX - this.player.x;
-        this.dy = gamePointer.worldY - this.player.y;
-        this.angle = Math.atan(this.dy/this.dx);
-
-        if (this.dx < 0) {
-            this.angle += Math.PI;
-        }
-
-        this.attackIndicator.setRotation(this.angle);
-    }*/
 
 
     checkUpgrade() {

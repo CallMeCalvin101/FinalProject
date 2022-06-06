@@ -17,12 +17,12 @@ class Wallturret extends Phaser.Physics.Arcade.Sprite {
 
     attack(px, py, bullets) {
         if (this.curCooldown > 0) {return;}
-        
+
         // Grabs the angle by calculating this dist to x, y
         let dx = px - this.x;
         let dy =  - (py - this.y);
 
-        let bullet = new Hitbox(this.scene, this.x, this.y, "sword-hitbox", 1000, 200, dx, dy);
+        let bullet = new Hitbox(this.scene, this.x, this.y, "bullet", 1000, 200, dx, dy);
         bullets.add(bullet);
         this.curCooldown = this.attackCooldown;
     }

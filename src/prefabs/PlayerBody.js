@@ -5,6 +5,7 @@ class PlayerBody extends Player {
         scene.physics.add.existing(this);
 
         // Set Properties
+        this.alive = true;
         this.walkAcceleration = 900;
         this.maxSpeed = 350;
         this.setMaxVelocity(this.maxSpeed);
@@ -19,6 +20,10 @@ class PlayerBody extends Player {
     }
 
     update() {
+        if (this.alive == false) {
+            return;
+        }
+
         // Controls Attack Logic
         if (this.isAttack == true && this.attackDuration > 0) {
             this.attackDuration -= 1;

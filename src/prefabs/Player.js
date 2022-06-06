@@ -5,6 +5,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
 
         // Set Properties
+        this.alive = true;
         this.walkAcceleration = 600;
         this.maxSpeed = 300;
         this.setMaxVelocity(this.maxSpeed);
@@ -19,9 +20,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.isupright = true;
         this.isteleport = false; //teleport state - animation depends on this property
     }
+
+    setDeath() {
+        this.alive = false;
+    }
     
 
     update() {
+        if (this.alive == false) {
+            return;
+        }
+
         if((-1.5 < this.rotation) && (this.rotation < 1.5)){ this.isupright = true;}
         else { this.isupright = false;}
 
