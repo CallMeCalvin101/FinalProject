@@ -69,8 +69,6 @@ class Play extends Phaser.Scene {
             this.enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
             this.enemies.add(this.enemy);
         });
-
-
         //const newEnemy2 = map.findObject("Objects", obj => obj.name === "Enemy1");
         //this.enemy = new BasicEnemy(this, newEnemy2.x,newEnemy2.y,'newenemy');
 
@@ -193,6 +191,15 @@ class Play extends Phaser.Scene {
         this.upgradeBody = new Upgrade(this, newbody.x, newbody.y, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
+        //turret
+        this.turrets = this.add.group({
+            runChildUpdate: true            // make sure update runs on group children
+        });
+        const turret = map.findObject("Objects", obj => obj.type === "gun");
+        this.turret1 = new Wallturret(this, turret.x,turret.y, 'Gun');
+        this.turrets.add(this.turret1);
+        
+        
         this.upgradeSword = new Upgrade(this, 500, 500, 'upgrade:sword', "sword");
         this.upgradeGroup.add(this.upgradeSword);
 
@@ -256,6 +263,7 @@ class Play extends Phaser.Scene {
             runChildUpdate: true            // make sure update runs on group children
         })
 
+        
     }
     
     
@@ -286,6 +294,23 @@ class Play extends Phaser.Scene {
             }
         };
        
+        //turret bullet
+        let distance1 = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+        if (distance1 < 300)
+    {
+        if ( this.nextFire && this.bullets.countDead() > 0)
+        {
+            this.nextFire = this.game.time.now + this.fireRate;
+
+            var bullet = this.bullets.getFirstDead();
+
+            bullet.reset(this.turret.x, this.turret.y);
+
+            bullet.rotation = this.game.physics.arcade.moveToObject(bullet, this.player, 500);
+        }
+    }
+
+
         //////////////////
     }
 
@@ -335,6 +360,9 @@ class Play extends Phaser.Scene {
 
     resetPlayer() {
         this.camera.startFollow(this.player);
+        this.physics.add.collider(this.player, this.wallsLayer);
+        this.physics.add.collider(this.player, this.enemies);
+        this.physics.add.collider(this.player, this.enemy);
 
         // Adds Collisions to Walls & Enemies
         this.physics.add.collider(this.player, this.wallsLayer); 
@@ -371,6 +399,7 @@ class Play extends Phaser.Scene {
 
         this.checkUpgrade();
     }
+
     
     
 }
