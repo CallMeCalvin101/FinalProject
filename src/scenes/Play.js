@@ -361,8 +361,7 @@ class Play extends Phaser.Scene {
     resetPlayer() {
         this.camera.startFollow(this.player);
         this.physics.add.collider(this.player, this.wallsLayer);
-        this.physics.add.collider(this.player, this.enemies);
-        this.physics.add.collider(this.player, this.enemy);
+
 
         // Adds Collisions to Walls & Enemies
         this.physics.add.collider(this.player, this.wallsLayer); 
