@@ -46,6 +46,7 @@ class PlayerBody extends Player {
             this.setAccelerationX(this.walkAcceleration);
         }
 
+        if (!(keyA.isDown || keyS.isDown || keyW.isDown || keyD.isDown)){this.scene.robotEmitter.setAlpha(0);}
             
 
         if (keyW.isUp && keyS.isUp) {
@@ -57,6 +58,7 @@ class PlayerBody extends Player {
             this.setAccelerationX(0);
             this.setDragX(this.drag);
         }
+
     }
 
     attack(px, py, hitbox) {

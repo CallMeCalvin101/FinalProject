@@ -6,7 +6,7 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add to physics system
         //this.setVelocityX(velocity);   
-        //this.setImmovable();     
+        this.setImmovable();     
         // this.allowGravity = false;        
         
         //this.tint = Math.random() * 0xFFFFFF;   // randomize tint
@@ -73,12 +73,12 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
         const enemyBlocked = this.body.blocked
         
         if(enemyBlocked.down || enemyBlocked.up || enemyBlocked.left || enemyBlocked.right){
-            //console.log(enemyBlocked);
+            console.log(enemyBlocked);
             let possibleDirections = []
             for (const direction in enemyBlocked){
                 possibleDirections.push(direction)
             }
-            //console.log(possibleDirections);
+            console.log(possibleDirections);
             const newDirection = possibleDirections [Math.floor(Math.random()*4)+1]
             switch(newDirection){
                 case 'up':
