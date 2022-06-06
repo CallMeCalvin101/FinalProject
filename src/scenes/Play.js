@@ -300,7 +300,7 @@ class Play extends Phaser.Scene {
         if (this.HP.getDead() == true) {
             this.player.alive = false;
             this.time.delayedCall(3000, () => {
-                this.scene.start('menuScene');
+                this.scene.start('deathScene');
             });
         }
 
