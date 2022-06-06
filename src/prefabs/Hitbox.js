@@ -10,6 +10,7 @@ class Hitbox extends Phaser.Physics.Arcade.Sprite {
             this.fade = false;
         }
         this.duration = duration;
+        
     }
 
     update() {

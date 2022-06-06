@@ -1952,6 +1952,18 @@
                  "width":32,
                  "x":2176,
                  "y":4416
+                }, 
+                {
+                 "gid":67,
+                 "height":32,
+                 "id":117,
+                 "name":"sword ",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2080,
+                 "y":3808
                 }],
          "opacity":1,
          "properties":[
@@ -1966,7 +1978,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":117,
+ "nextobjectid":118,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
