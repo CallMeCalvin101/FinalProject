@@ -64,11 +64,15 @@ class Play extends Phaser.Scene {
         this.enemies = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
         });
+        
         let newEnemy1 = map.filterObjects("Objects", obj => obj.name === "EnemySpawn");
         newEnemy1.map((tile) => {
             this.enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
             this.enemies.add(this.enemy);
         });
+        this.enemies.children.iterate((child) => {
+            child.setScale(0.75, 0.75);
+          });
         //const newEnemy2 = map.findObject("Objects", obj => obj.name === "Enemy1");
         //this.enemy = new BasicEnemy(this, newEnemy2.x,newEnemy2.y,'newenemy');
 
@@ -284,18 +288,18 @@ class Play extends Phaser.Scene {
         this.player.update();
         this.enemy.update();
         // enemy kill player
-        let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
-        if (this.player.body.speed > 0){
-        if (distance < 300)
-            {
+        //let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+        //if (this.player.body.speed > 0){
+        //if (distance < 300)
+        //    {
             //this.enemy.body.reset(this.player.x, this.player.y);
-              this.physics.moveToObject(this.enemy, this.player, 300);
+        //      this.physics.moveToObject(this.enemy, this.player, 300);
             //this.player.body.reset(50,50);
-            }
-        };
+        //    }
+        //};
        
         //turret bullet
-        let distance1 = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+        let distance1 = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.turrets.x, this.turrets.y);
         if (distance1 < 300)
     {
         if ( this.nextFire && this.bullets.countDead() > 0)
