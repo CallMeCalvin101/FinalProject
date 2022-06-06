@@ -69,8 +69,6 @@ class Play extends Phaser.Scene {
             this.enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
             this.enemies.add(this.enemy);
         });
-
-
         //const newEnemy2 = map.findObject("Objects", obj => obj.name === "Enemy1");
         //this.enemy = new BasicEnemy(this, newEnemy2.x,newEnemy2.y,'newenemy');
 
@@ -174,6 +172,21 @@ class Play extends Phaser.Scene {
         this.upgradeBody = new Upgrade(this, newbody.x, newbody.y, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
+        //turret
+        this.turrets = this.add.group({
+            runChildUpdate: true            // make sure update runs on group children
+        });
+        const turret = map.findObject("Objects", obj => obj.type === "gun");
+        this.turret1 = new Wallturret(this, turret.x,turret.y, 'Gun');
+        this.turrets.add(this.turret1);
+        
+         //  Our bullet group
+        bullets = game.add.group();
+        bullets.enableBody = true;
+        bullets.physicsBodyType = Phaser.Physics.ARCADE;
+        bullets.createMultiple(30, 'bullet', 0, false);
+        
+
         // Player Attack Handeling
         this.playerAttacks = this.add.group({
             runChildUpdate: true
@@ -268,6 +281,7 @@ class Play extends Phaser.Scene {
             runChildUpdate: true            // make sure update runs on group children
         })
 
+        
     }
     
 
@@ -291,6 +305,23 @@ class Play extends Phaser.Scene {
             }
         };
        
+        //turret bullet
+        let distance1 = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+        if (distance1 < 300)
+    {
+        if ( this.nextFire && this.bullets.countDead() > 0)
+        {
+            this.nextFire = this.game.time.now + this.fireRate;
+
+            var bullet = this.bullets.getFirstDead();
+
+            bullet.reset(this.turret.x, this.turret.y);
+
+            bullet.rotation = this.game.physics.arcade.moveToObject(bullet, this.player, 500);
+        }
+    }
+
+
         //////////////////
     }
 
@@ -333,7 +364,7 @@ class Play extends Phaser.Scene {
     resetPlayer() {
         this.camera.startFollow(this.player);
         this.physics.add.collider(this.player, this.wallsLayer);
-        this.physics.add.collider(this.player, this.enmies);
+        this.physics.add.collider(this.player, this.enemies);
         this.physics.add.collider(this.player, this.enemy);
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
         function playerJump (player, tile) {
@@ -356,5 +387,5 @@ class Play extends Phaser.Scene {
             this.time.delayedCall(200, ()=>{tile.jump(player);});
         }
     }
-    
+
 }
