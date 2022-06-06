@@ -71,15 +71,15 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
     }
     update(){
         const enemyBlocked = this.body.blocked
-        
-        if(enemyBlocked.down || enemyBlocked.up || enemyBlocked.left || enemyBlocked.right){
+        const enemyTouched = this.body.touching
+        if(enemyBlocked.down || enemyBlocked.up || enemyBlocked.left || enemyBlocked.right || enemyTouched.down || enemyTouched.up || enemyTouched.right || enemyTouched.up){
             //console.log(enemyBlocked);
             let possibleDirections = []
-            for (const direction in enemyBlocked){
+            for (const direction in enemyBlocked || enemyTouched){
                 possibleDirections.push(direction)
             }
             //console.log(possibleDirections);
-            const newDirection = possibleDirections [Math.floor(Math.random()*4)+1]
+            const newDirection = possibleDirections [Math.floor(Math.random()*4)]
             switch(newDirection){
                 case 'up':
                     this.body.setVelocity(0,-this.speed) // Up
@@ -96,10 +96,6 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
                 case 'right':
                     this.body.setVelocity(this.speed,0) //Right
                     this.anims.play('enemyRight')
-                    break
-                case 'none':
-                    this.body.setVelocity(0,0) //not going anywhere
-                    this.anims.stop()
                     break
                 default:
                     break;

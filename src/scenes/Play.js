@@ -32,9 +32,6 @@ class Play extends Phaser.Scene {
         this.wallsLayer = map.createLayer("walls", tileset, 0, 0);
         this.aboveLayer = map.createLayer("above_player", tileset);
         this.tprightlayer = map.createLayer("tpright", tileset);
-        this.tpupLayer = map.createLayer("tpup", tileset);
-        this.tpdownLayer = map.createLayer("tpdown", tileset);
-        this.tpleftLayer = map.createLayer("tpleft", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
     
@@ -64,11 +61,15 @@ class Play extends Phaser.Scene {
         this.enemies = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
         });
+        
         let newEnemy1 = map.filterObjects("Objects", obj => obj.name === "EnemySpawn");
         newEnemy1.map((tile) => {
             this.enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
             this.enemies.add(this.enemy);
         });
+        this.enemies.children.iterate((child) => {
+            child.setScale(0.75, 0.75);
+          });
         //const newEnemy2 = map.findObject("Objects", obj => obj.name === "Enemy1");
         //this.enemy = new BasicEnemy(this, newEnemy2.x,newEnemy2.y,'newenemy');
 
@@ -289,12 +290,12 @@ class Play extends Phaser.Scene {
         this.player.update();
         this.enemy.update();
         // enemy kill player
-        let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
-        if (this.player.body.speed > 0){
-        if (distance < 300)
-            {
+        //let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+        //if (this.player.body.speed > 0){
+        //if (distance < 300)
+        //    {
             //this.enemy.body.reset(this.player.x, this.player.y);
-              this.physics.moveToObject(this.enemy, this.player, 300);
+        //      this.physics.moveToObject(this.enemy, this.player, 300);
             //this.player.body.reset(50,50);
             }
         };
@@ -359,7 +360,7 @@ class Play extends Phaser.Scene {
         for (let enemy of this.enemies.getChildren()) {
             this.physics.add.collider(this.player, enemy, () => {
                 this.player.collideWithEnemy(enemy);
-                this.HP.lowerHP(2);
+                this.HP.lowerHP(1);
             }, null, this);
         }
         this.physics.add.collider(this.enemies, this.enemies);
