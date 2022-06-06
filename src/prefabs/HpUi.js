@@ -17,6 +17,7 @@ class HpUi {
  
     lowerHP(num) {
         let newHealth = this.curHP - num;
+        if (newHealth < 0) {newHealth = 0;}
         for (let i = this.curHP; i > newHealth; i--) {
             this.hearts[i - 1].removeHeart();
         }
