@@ -1421,6 +1421,5 @@
   <object id="111" name="gun" type="gun" gid="66" x="2144" y="4352" width="32" height="32"/>
   <object id="113" name="gun" type="gun" gid="66" x="2142.67" y="4416" width="32" height="32"/>
   <object id="117" name="sword " gid="67" x="2080" y="3808" width="32" height="32"/>
-  <object id="118" name="EnemySpawn" gid="65" x="736" y="128" width="32" height="32"/>
  </objectgroup>
 </map>

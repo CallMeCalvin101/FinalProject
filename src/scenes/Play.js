@@ -32,9 +32,6 @@ class Play extends Phaser.Scene {
         this.wallsLayer = map.createLayer("walls", tileset, 0, 0);
         this.aboveLayer = map.createLayer("above_player", tileset);
         this.tprightlayer = map.createLayer("tpright", tileset);
-        this.tpupLayer = map.createLayer("tpup", tileset);
-        this.tpdownLayer = map.createLayer("tpdown", tileset);
-        this.tpleftLayer = map.createLayer("tpleft", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
     
@@ -373,7 +370,7 @@ class Play extends Phaser.Scene {
         for (let enemy of this.enemies.getChildren()) {
             this.physics.add.collider(this.player, enemy, () => {
                 this.player.collideWithEnemy(enemy);
-                this.HP.lowerHP(2);
+                this.HP.lowerHP(1);
             }, null, this);
         }
         this.physics.add.collider(this.enemies, this.enemies);
