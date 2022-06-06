@@ -11,10 +11,11 @@ class Wallturret extends Phaser.Physics.Arcade.Sprite {
         this.alpha = 1;
         this.textureKey = textureKey;
 
-
+        
 
     }
 
     update() {
+
     }
 }
