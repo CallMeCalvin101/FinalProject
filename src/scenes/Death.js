@@ -28,8 +28,8 @@ class Death extends Phaser.Scene {
                 { key: 'b6' },,
                
             ],
-            frameRate: 5,
-            repeat: 0
+            frameRate: 6,
+            repeat: 2,
         });
     
         
