@@ -12,7 +12,8 @@ class Menu extends Phaser.Scene {
         this.load.image('black', '/assets/blackscreen.png');
         this.load.audio('bg', './assets/bg.mp3');
         this.load.audio('bg_layer', './assets/bg_layer.mp3');
-        this.load.image('titletext', '/assets/titletext.png');
+        this.load.image('titletext1', '/assets/lr1.png');
+        this.load.image('titletext2', '/assets/lr2.png');
         this.load.audio('deathmusic2', './assets/deathmusic2.wav');
         this.load.audio('selectsound', './assets/selectsound.wav');
         this.load.audio('hit', './assets/hit.mp3');
@@ -20,12 +21,12 @@ class Menu extends Phaser.Scene {
 
     create() {
         //for developer use to skip menu
-        this.scene.start('playScene');
+        //this.scene.start('playScene');
 
 
         this.bgmusic = this.sound.add('bg', {
             mute: false,
-            volume: 0.2,
+            volume: 0.1,
             rate: 1,
             loop: true 
         });
@@ -48,7 +49,8 @@ class Menu extends Phaser.Scene {
 
         gamePointer = this.input.activePointer;
 
-        this.title = this.add.sprite(game.config.width/2+300, 190, 'titletext').setOrigin(0.5).setScale(0.0);
+        this.title = this.add.sprite(game.config.width/2+300, 190, 'titletext1').setOrigin(0.5).setScale(0.0);
+        this.title.setInteractive();
         this.blackscreen = this.add.sprite(0, 0, 'black').setOrigin(0,0)
 
         this.nextButton = this.add.sprite(game.config.width/2+300, 490, 'bt1').setOrigin(0.5).setScale(0.0);
@@ -65,8 +67,20 @@ class Menu extends Phaser.Scene {
         
         this.nextButton.on('pointerdown', () => {
             this.sound.play('hit');
-            this.sound.play('selectsound');
+            this.sound.play('selectsound',{volume: 0.3});
             this.scene.start('playScene');
+        });
+
+
+        this.title.on('pointerover', () => {
+            this.title.setTexture('titletext2')
+        });
+        this.title.on('pointerout', () => {
+            this.title.setTexture('titletext1')
+        });
+        
+        this.title.on('pointerdown', () => {            
+            this.scene.start('creditScene');
         });
 
 

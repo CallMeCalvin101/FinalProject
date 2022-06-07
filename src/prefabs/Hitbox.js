@@ -4,7 +4,7 @@ class Hitbox extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable(true);
-
+        this.play('hitb');
         this.fade = true;
         if (duration == 0) {
             this.fade = false;

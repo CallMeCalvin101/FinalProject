@@ -11,9 +11,11 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('b-jump', './assets/player/back-ani.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('l-jump', './assets/player/s-l.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('r-jump', './assets/player/s-r.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+        
         this.load.spritesheet('health-blink', './assets/health/health-blink.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('health-gone', './assets/health/health-gone.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 4});
         this.load.spritesheet('health-on', './assets/health/health-on.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 3});
+        this.load.spritesheet('hit', './assets/b.png', {frameWidth: 20, frameHeight: 20, startFrame: 0, endFrame: 2});       
         this.load.audio('bg_music', './assets/bg_music.wav');
         this.load.audio('bg', './assets/bg.mp3');
         this.load.audio('fizz', './assets/fizz.mp3');
@@ -141,7 +143,7 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
         this.anims.create({
-            key: 'bcakjump',
+            key: 'backjump',
             frames: this.anims.generateFrameNumbers('b-jump', {start: 0, end: 5, first: 0}),
             frameRate: 12,
             repeat: -1
@@ -186,6 +188,12 @@ class Play extends Phaser.Scene {
             frameRate: 5,
             repeat: 0
         });
+        this.anims.create({
+            key: 'hitb',
+            frames: this.anims.generateFrameNumbers('hit', {start: 0, end: 2, first: 0}),
+            frameRate: 10,
+            repeat: -1
+        });     
 
 
         
@@ -234,6 +242,7 @@ class Play extends Phaser.Scene {
         
         
         this.upgradeSword = new Upgrade(this, 500, 500, 'upgrade:sword', "sword");
+        
         this.upgradeGroup.add(this.upgradeSword);
 
         // Player Attack Handeling

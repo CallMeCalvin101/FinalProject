@@ -39,7 +39,7 @@ class PlayerBody extends Player {
             this.play('frontjump');
             this.setAccelerationY(-this.walkAcceleration);
         } else if (keyS.isDown) {
-            this.play('backjump');
+            this.play('frontjump');
             this.setAccelerationY(this.walkAcceleration);
         }
 
