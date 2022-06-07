@@ -20,12 +20,12 @@ class Menu extends Phaser.Scene {
 
     create() {
         //for developer use to skip menu
-        this.scene.start('playScene');
+        //this.scene.start('playScene');
 
 
         this.bgmusic = this.sound.add('bg', {
             mute: false,
-            volume: 0.2,
+            volume: 0.1,
             rate: 1,
             loop: true 
         });
@@ -65,7 +65,7 @@ class Menu extends Phaser.Scene {
         
         this.nextButton.on('pointerdown', () => {
             this.sound.play('hit');
-            this.sound.play('selectsound');
+            this.sound.play('selectsound',{volume: 0.3});
             this.scene.start('playScene');
         });
 
