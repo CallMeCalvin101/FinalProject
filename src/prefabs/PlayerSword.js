@@ -1,6 +1,6 @@
 class PlayerSword extends Player {
     constructor(scene, x, y) {
-        super(scene, x, y, 'player-sword');
+        super(scene, x, y, 'player-body');
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -42,14 +42,18 @@ class PlayerSword extends Player {
 
         // Controls Player Movement
         if (keyW.isDown) {
+            this.play('frontjump');
             this.setAccelerationY(-this.walkAcceleration);
         } else if (keyS.isDown) {
+            this.play('backjump');
             this.setAccelerationY(this.walkAcceleration);
         }
 
         if (keyA.isDown) {
+            this.play('leftjump');
             this.setAccelerationX(-this.walkAcceleration);
         } else if (keyD.isDown) {
+            this.play('rightjump');
             this.setAccelerationX(this.walkAcceleration);
         }
 
