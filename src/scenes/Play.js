@@ -5,7 +5,7 @@ class Play extends Phaser.Scene {
 
     preload(){
         this.load.spritesheet('teleport', './assets/teleportanim.png', {frameWidth: 224, frameHeight: 32, startFrame: 0, endFrame: 4}); 
-        this.load.spritesheet('vertroll', './assets/player/h-v.png', {frameWidth: 34, frameHeight: 32, startFrame: 0, endFrame: 3}); 
+        this.load.spritesheet('vertroll', './assets/player/newroll.png', {frameWidth: 34, frameHeight: 32, startFrame: 0, endFrame: 9}); 
         this.load.spritesheet('horizroll', './assets/player/h-s.png', {frameWidth: 34, frameHeight: 32, startFrame: 0, endFrame: 3}); 
         this.load.spritesheet('f-jump', './assets/player/front-ani.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('b-jump', './assets/player/back-ani.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
@@ -125,8 +125,8 @@ class Play extends Phaser.Scene {
         //head animation
         this.anims.create({
             key: 'rollup',
-            frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 3, first: 0}),
-            frameRate: 12,
+            frames: this.anims.generateFrameNumbers('vertroll', {start: 0, end: 9, first: 0}),
+            frameRate: 13,
             repeat: -1
         });
         this.anims.create({

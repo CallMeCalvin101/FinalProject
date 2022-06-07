@@ -39,6 +39,7 @@ class JumpTile extends Phaser.Physics.Arcade.Sprite {
             player.setAccelerationY(-50);
         }
 
+        // if(this.scene.player.y>20){this.scene.sound.play('wind', {volume: 0.01, loop: true})}
         player.setPosition(this.newX, this.newY);
         player.setAlpha(1);
         player.setVelocity(0);
