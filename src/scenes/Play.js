@@ -220,9 +220,13 @@ class Play extends Phaser.Scene {
         this.turrets = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
         });
-        const turret = map.findObject("Objects", obj => obj.type === "gun");
-        this.turret1 = new Wallturret(this, turret.x,turret.y, 'Gun');
-        this.turrets.add(this.turret1);
+
+        let turretLocations = map.filterObjects("Objects", obj => obj.name === "gun");
+        turretLocations.map((tile) => {
+            let turret = new Wallturret(this, tile.x, tile.y, "Gun");
+            this.turrets.add(turret);
+        });
+
 
         this.enemyAttacks = this.add.group({
             runChildUpdate: true
@@ -319,20 +323,22 @@ class Play extends Phaser.Scene {
         this.player.update();
         this.enemy.update();
 
-        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.turret1.x, this.turret1.y) < this.turret1.range) {
-            this.turret1.attack(this.player.x, this.player.y, this.enemyAttacks);
-            for (let hitbox of this.enemyAttacks.getChildren()) {
-                this.physics.add.collider(this.player, hitbox, () => {
-                    this.player.collideWithEnemy(hitbox);
-                    this.HP.lowerHP(2);
-                    hitbox.destroy();
-                }, null, this);
+        for (let turret of this.turrets.getChildren()) {
+            if (Phaser.Math.Distance.Between(this.player.x, this.player.y, turret.x, turret.y) < turret.range) {
+                turret.attack(this.player.x, this.player.y, this.enemyAttacks);
+                for (let hitbox of this.enemyAttacks.getChildren()) {
+                    this.physics.add.collider(this.player, hitbox, () => {
+                        this.player.collideWithEnemy(hitbox);
+                        this.HP.lowerHP(2);
+                        hitbox.destroy();
+                    }, null, this);
 
-                this.physics.add.collider(this.wallsLayer, hitbox, () => {
-                    hitbox.destroy();
-                }, null, this);
-            }
-        }     
+                    this.physics.add.collider(this.wallsLayer, hitbox, () => {
+                        hitbox.destroy();
+                    }, null, this);
+                }
+            }   
+        }  
     }
 
 
