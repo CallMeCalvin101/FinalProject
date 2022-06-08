@@ -18,7 +18,7 @@ let config = {
             }
         }
     },
-    scene: [Load, Menu, Play, Death,Credit, newMap]
+    scene: [Load, Menu, Play, Death, Credit, End]
 };
 
 let game = new Phaser.Game(config);
