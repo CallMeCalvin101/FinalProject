@@ -10,8 +10,8 @@ class Wallturret extends Phaser.Physics.Arcade.Sprite {
         //this.tint = Math.random() * 0xFFFFFF;   // randomize tint
         this.alpha = 1;
         this.textureKey = textureKey;
-        this.range = 300;
-        this.attackCooldown = 300
+        this.range = 1000;
+        this.attackCooldown = 200
         this.curCooldown = 0;
     }
 
