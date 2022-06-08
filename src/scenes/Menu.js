@@ -4,15 +4,15 @@ class Menu extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image('rb1', '/assets/rb1.png');
-        this.load.image('rb2', '/assets/rb2.png');
-        this.load.image('bt1', '/assets/bt1.png');
-        this.load.image('bt2', '/assets/bt2.png');
-        this.load.image('black', '/assets/blackscreen.png');
+        this.load.image('rb1', './assets/rb1.png');
+        this.load.image('rb2', './assets/rb2.png');
+        this.load.image('bt1', './assets/bt1.png');
+        this.load.image('bt2', './assets/bt2.png');
+        this.load.image('black', './assets/blackscreen.png');
         this.load.audio('bg', './assets/bg.mp3');
         this.load.audio('bg_layer', './assets/bg_layer.mp3');
-        this.load.image('titletext1', '/assets/lr1.png');
-        this.load.image('titletext2', '/assets/lr2.png');
+        this.load.image('titletext1', './assets/lr1.png');
+        this.load.image('titletext2', './assets/lr2.png');
         this.load.audio('deathmusic2', './assets/deathmusic2.wav');
         this.load.audio('selectsound', './assets/selectsound.wav');
         this.load.audio('hit', './assets/hit.mp3');
