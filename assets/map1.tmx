@@ -117,12 +117,12 @@
   </tile>
   <tile id="22">
    <properties>
-    <property name="collides" type="bool" value="false"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="23">
    <properties>
-    <property name="collides" type="bool" value="false"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="24">
@@ -157,12 +157,12 @@
   </tile>
   <tile id="30">
    <properties>
-    <property name="collides" type="bool" value="false"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="31">
    <properties>
-    <property name="collides" type="bool" value="false"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="32">
@@ -1447,7 +1447,7 @@
   <object id="150" name="up" gid="56" x="2944" y="1440" width="32" height="32"/>
   <object id="151" name="up" gid="56" x="2912" y="1024" width="32" height="32"/>
   <object id="152" name="up" gid="56" x="2944" y="1024" width="32" height="32"/>
-  <object id="153" name="boss" gid="65" x="3808" y="672" width="32" height="32"/>
+  <object id="153" name="bossSpawn" gid="65" x="3808" y="672" width="32" height="32"/>
   <object id="154" name="gun" type="gun" gid="66" x="3456" y="3712" width="32" height="32"/>
   <object id="155" name="gun" type="gun" gid="66" x="2400" y="3712" width="32" height="32"/>
   <object id="156" name="gun" type="gun" gid="66" x="2624" y="3104" width="32" height="32"/>

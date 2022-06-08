@@ -1,11 +1,10 @@
-class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
+class Boss extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, textureKey) {
         // call Phaser Physics Sprite constructor
         super(scene, x, y, textureKey);
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add to physics system
-        //this.setVelocityX(velocity);   
         this.setImmovable();     
         // this.allowGravity = false;        
         
@@ -13,61 +12,69 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
         this.alpha = 1;
         this.setFrame(4);
         this.textureKey = textureKey
-        
-         //Enemy anime
-         this.anims.create({
-            key: 'enemyDown',            
-            frames: this.anims.generateFrameNumbers(textureKey, {start: 0, end: 3, first: 0}),
-            frameRate: 6,
+        this.alive = true
+        //Enemy anime
+        this.anims.create({
+            key: 'bossDown',            
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 9, end: 17, first: 9, last:9}),
+            frameRate: 4,
+            yoyo: true,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'bossUp',            
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 9, end: 17, first: 9, last:9}),
+            frameRate: 4,
+            yoyo: true,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'bossLeft',            
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 9, end: 17, first: 9, last:9}),
+            frameRate: 4,
+            yoyo: true,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'bossRight',            
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 1, end: 8, first: 8, last:8}),
+            frameRate: 4,
+            yoyo: true,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'bossIddle',            
+            frames: this.anims.generateFrameNumbers(textureKey, {start: 11, end: 11, first: 11}),
+            frameRate: 1,
             yoyo: false,
             repeat: -1
         });
-        this.anims.create({
-            key: 'enemyLeft',            
-            frames: this.anims.generateFrameNumbers(textureKey, {start: 4, end: 7, first: 4}),
-            frameRate: 4,
-            yoyo: true,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'enemyRight',            
-            frames: this.anims.generateFrameNumbers(textureKey, {start: 8, end: 11, first: 8}),
-            frameRate: 4,
-            yoyo: true,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'enemyUp',            
-            frames: this.anims.generateFrameNumbers(textureKey, {start: 12, end: 15, first: 12}),
-            frameRate: 4,
-            yoyo: true,
-            repeat: -1
-        });
-        this.anims.play('enemyDown')
+        this.anims.play('bossIddle')
         this.speed = 64
         this.body.setVelocity(0,this.speed)
 
-        let dir = Math.floor(Math.random() * 4)
-        switch(dir){
+        this.dir = Math.floor(Math.random() * 3)
+        switch(this.dir){
             case 0:
                 this.body.setVelocity(0,-this.speed) // Up
-                this.anims.play('enemyUp')
+                this.anims.play('bossUp')
                 break
-            case 1:
+            case 0:
                 this.body.setVelocity(-this.speed,0) //Left
-                this.anims.play('enemyLeft')
+                this.anims.play('bossLeft')
                 break
             case 2:
                 this.body.setVelocity(0,this.speed) //Down
-                this.anims.play('enemyDown')
+                this.anims.play('bossDown')
                 break
-            case 3:
+            case 1:
                 this.body.setVelocity(this.speed,0) //Right
-                this.anims.play('enemyRight')
+                this.anims.play('bossRight')
                 break
             default:
                 break;
         }
+        
     }
     update(){
         const enemyBlocked = this.body.blocked
@@ -83,19 +90,19 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
             switch(newDirection){
                 case 'up':
                     this.body.setVelocity(0,-this.speed) // Up
-                    this.anims.play('enemyUp')
+                    this.anims.play('bossUp')
                     break
                 case 'left':
                     this.body.setVelocity(-this.speed,0) //Left
-                    this.anims.play('enemyLeft')
+                    this.anims.play('bossLeft')
                     break
                 case 'down':
                     this.body.setVelocity(0,this.speed) //Down
-                    this.anims.play('enemyDown')
+                    this.anims.play('bossDown')
                     break
                 case 'right':
                     this.body.setVelocity(this.speed,0) //Right
-                    this.anims.play('enemyRight')
+                    this.anims.play('bossRight')
                     break
                 default:
                     break;
@@ -103,5 +110,7 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
 
         }
     }
-
+    dead(){
+        this.scene.start('endScene')
+    }
 }

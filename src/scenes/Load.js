@@ -30,7 +30,7 @@ class Load extends Phaser.Scene {
         //this.load.atlas('enemy1', 'enemy1.png','enemy1.json');
         this.load.spritesheet('wall', 'canon4.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 7});       
         this.load.spritesheet('enemy1','enemy1.png',{frameWidth:152, frameHeight:170, startFrame:0, endFrame:15});       
-        this.load.spritesheet('boss','boss.png',{frameWidth:400, frameHeight:480, startFrame:0, endFrame:22}) ;
+        this.load.spritesheet('boss1','boss.png',{frameWidth:400, frameHeight:480, startFrame:0, endFrame:22}) ;
     }
 
     create() {

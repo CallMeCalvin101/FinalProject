@@ -1,6 +1,6 @@
 class End extends Phaser.Scene {
     constructor() {
-        super('End');
+        super('endScene');
         
     }
     preload(){

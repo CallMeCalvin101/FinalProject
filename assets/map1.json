@@ -2021,7 +2021,7 @@
                  "gid":65,
                  "height":32,
                  "id":153,
-                 "name":"boss",
+                 "name":"bossSpawn",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -2840,7 +2840,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2849,7 +2849,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2912,7 +2912,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2921,7 +2921,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

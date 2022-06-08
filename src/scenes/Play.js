@@ -71,6 +71,11 @@ class Play extends Phaser.Scene {
             this.enemies.add(enemy);
         });
 
+        let newBoss = map.filterObjects("Objects", obj => obj.name === "bossSpawn");
+        newBoss.map((tile) => {
+            let enemy1 = new Boss(this, tile.x,tile.y, 'boss1')
+            enemy1.setScale(0.25, 0.25);
+        });
 
         this.particleManager = this.add.particles('cross');
         this.emitterconfig = 
@@ -355,6 +360,10 @@ class Play extends Phaser.Scene {
                 }
             }   
         }  
+        // if boss is dead return endScene
+        if(this.enemy1.alive == false){
+            return Dead();
+        }
     }
 
 
@@ -395,11 +404,10 @@ class Play extends Phaser.Scene {
 
     resetPlayer() {
         this.camera.startFollow(this.player);
-        this.physics.add.collider(this.player, this.wallsLayer);
 
 
         // Adds Collisions to Walls & Enemies
-        this.physics.add.collider(this.player, this.wallsLayer); 
+        //this.physics.add.collider(this.player, this.wallsLayer); 
         this.physics.add.collider(this.enemies, this.wallsLayer);
         for (let enemy of this.enemies.getChildren()) {
             this.physics.add.collider(this.player, enemy, () => {
@@ -409,6 +417,7 @@ class Play extends Phaser.Scene {
         }
 
         this.physics.add.collider(this.enemies, this.enemies);
+
 
         // Adds Collisions to Jumptiles
         this.physics.add.overlap(this.player, this.jumpTiles, playerJump, null, this);
@@ -434,7 +443,5 @@ class Play extends Phaser.Scene {
 
         this.checkUpgrade();
     }
-
-    
     
 }
