@@ -197,6 +197,10 @@ class Play extends Phaser.Scene {
         this.upgradeBody = new Upgrade(this, newbody.x, newbody.y, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
 
+        const newsword = map.findObject("Objects", obj => obj.name === "sword1");
+        this.upgradeSword = new Upgrade(this, newsword.x, newsword.y, 'upgrade:sword', "sword");
+        this.upgradeGroup.add(this.upgradeSword);
+
 
         //turret
         this.turrets = this.add.group({
@@ -214,10 +218,6 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         });
         
-        
-        this.upgradeSword = new Upgrade(this, 500, 500, 'upgrade:sword', "sword");
-        
-        this.upgradeGroup.add(this.upgradeSword);
 
         // Player Attack Handeling
         this.playerAttacks = this.add.group({
