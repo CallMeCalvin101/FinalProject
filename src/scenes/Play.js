@@ -15,7 +15,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('health-blink', './assets/health/health-blink.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('health-gone', './assets/health/health-gone.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 4});
         this.load.spritesheet('health-on', './assets/health/health-on.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 3});
-        this.load.spritesheet('hit', './assets/b.png', {frameWidth: 20, frameHeight: 20, startFrame: 0, endFrame: 2});       
+        this.load.spritesheet('hit', './assets/b8.png', {frameWidth: 40, frameHeight: 40, startFrame: 0, endFrame: 3});       
         this.load.audio('bg_music', './assets/bg_music.wav');
         this.load.audio('bg', './assets/bg.mp3');
         this.load.audio('fizz', './assets/fizz.mp3');
@@ -190,7 +190,7 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'hitb',
-            frames: this.anims.generateFrameNumbers('hit', {start: 0, end: 2, first: 0}),
+            frames: this.anims.generateFrameNumbers('hit', {start: 0, end: 3, first: 0}),
             frameRate: 10,
             repeat: -1
         });     
