@@ -19,7 +19,8 @@ class Load extends Phaser.Scene {
         this.load.tilemapTiledJSON('map',"map1.json")
         this.load.image('cross', 'white_cross.png');
         this.load.image('particleblue', 'particleblue.png');
-
+        this.load.image('wasd', 'player/wasd.png');
+        this.load.image('m1', 'player/m1.png');
         this.load.tilemapTiledJSON('map2', "map2.json")
         this.load.image("tiles1","tiles1.png");
         

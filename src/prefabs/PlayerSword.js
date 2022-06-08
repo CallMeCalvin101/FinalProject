@@ -3,7 +3,7 @@ class PlayerSword extends Player {
         super(scene, x, y, 'player-body');
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.play('a-f');
+        this.play('a-b');
         // Set Properties for Player
         this.alive = true;
         this.walkAcceleration = 900;
