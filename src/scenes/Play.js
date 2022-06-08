@@ -73,8 +73,9 @@ class Play extends Phaser.Scene {
 
         let newBoss = map.filterObjects("Objects", obj => obj.name === "bossSpawn");
         newBoss.map((tile) => {
-            let enemy1 = new Boss(this, tile.x,tile.y, 'boss1')
-            enemy1.setScale(0.25, 0.25);
+            this.boss = new Boss(this, tile.x,tile.y, 'boss1');
+            this.boss.setScale(0.25, 0.25);
+            this.enemies.add(this.boss);
         });
 
         this.particleManager = this.add.particles('cross');
@@ -270,11 +271,15 @@ class Play extends Phaser.Scene {
             this.player.attack(gamePointer.worldX, gamePointer.worldY, this.playerAttacks);
         }, this);
 
+        this.physics.add.overlap(this.playerAttacks, this.boss, () => {
+            this.boss.alive = false;
+        }, null, this);
+
         // Implements collisions between player attacks and enemies
         this.physics.add.overlap(this.playerAttacks, this.enemies, attackHit, null, this);
         function attackHit (attack, enemy) {
             enemy.destroy();
-        }     
+        }
 
         // Jump Implementation
         this.jumpTiles = this.add.group();
@@ -330,6 +335,14 @@ class Play extends Phaser.Scene {
             });
         }
 
+        // if boss is dead return endScene
+        if(this.boss.alive == false){
+            this.player.alive = false;
+            this.time.delayedCall(3000, () => {
+                this.scene.start('endScene');
+            });
+        }
+
         this.dummy.setPosition(this.player.x, this.player.y); //dummy sprite used for telport anim - should track where player is
         this.fromEmitter.setPosition(this.player.x, this.player.y);
         this.robotEmitter.setPosition(this.player.x, this.player.y+25);
@@ -360,10 +373,6 @@ class Play extends Phaser.Scene {
                 }
             }   
         }  
-        // if boss is dead return endScene
-        if(this.enemy1.alive == false){
-            return Dead();
-        }
     }
 
 
@@ -393,8 +402,6 @@ class Play extends Phaser.Scene {
             //
             this.player.destroy();
             this.player = new PlayerSword(this, this.spawnX, this.spawnY);
-                   
-            
             this.resetPlayer();
             elem.destroy();
             this.sound.play('upgrade');
@@ -407,7 +414,7 @@ class Play extends Phaser.Scene {
 
 
         // Adds Collisions to Walls & Enemies
-        //this.physics.add.collider(this.player, this.wallsLayer); 
+        // this.physics.add.collider(this.player, this.wallsLayer); 
         this.physics.add.collider(this.enemies, this.wallsLayer);
         for (let enemy of this.enemies.getChildren()) {
             this.physics.add.collider(this.player, enemy, () => {

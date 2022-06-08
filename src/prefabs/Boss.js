@@ -110,7 +110,4 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
 
         }
     }
-    dead(){
-        this.scene.start('endScene')
-    }
 }
