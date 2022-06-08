@@ -15,7 +15,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('atk-b', './assets/player/atk-b.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('atk-l', './assets/player/atk-l.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('atk-r', './assets/player/atk-r.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
-        
+        this.load.spritesheet('m', './assets/player/m.png', {frameWidth: 100, frameHeight: 100, startFrame: 0, endFrame: 3}); 
         this.load.spritesheet('health-blink', './assets/health/health-blink.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('health-gone', './assets/health/health-gone.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 4});
         this.load.spritesheet('health-on', './assets/health/health-on.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 3});
@@ -42,7 +42,7 @@ class Play extends Phaser.Scene {
         this.tprightlayer = map.createLayer("tpright", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
-    
+         
         //this.bg_music = this.sound.add('bg_music', {mute: false, volume: 0.2, rate: 1.2, loop: true});
         //this.bg_music.play();
 
@@ -52,6 +52,7 @@ class Play extends Phaser.Scene {
         
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
+        this.wasd= this.add.sprite(newplayer.x, newplayer.y, 'wasd');
         this.player = new Player(this, newplayer.x, newplayer.y);
 
 
@@ -202,6 +203,13 @@ class Play extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });     
+        this.anims.create({
+            key: 'mouse',
+            frames: this.anims.generateFrameNumbers('m', {start: 0, end: 3, first: 0}),
+            frameRate: 10,
+            repeat: -1
+        });     
+
 
 
         
@@ -369,8 +377,15 @@ class Play extends Phaser.Scene {
             elem.destroy();
             this.sound.play('upgrade');
         } else if (elem.getType() == 'sword') {
+            // play attack insturction on the ground, but something went wrong. 
+            // sprite key 'm1', animation key 'mouse'
+            //this.mouse = this.add.sprite(this,this.spawnX,this.spawnY,'m1');
+            //this.mouse.play('mouse',true);
+            //
             this.player.destroy();
             this.player = new PlayerSword(this, this.spawnX, this.spawnY);
+                   
+            
             this.resetPlayer();
             elem.destroy();
             this.sound.play('upgrade');
