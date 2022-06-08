@@ -363,7 +363,7 @@ class Play extends Phaser.Scene {
                 for (let hitbox of this.enemyAttacks.getChildren()) {
                     this.physics.add.collider(this.player, hitbox, () => {
                         this.player.collideWithEnemy(hitbox);
-                        this.HP.lowerHP(2);
+                        this.HP.lowerHP(1);
                         hitbox.destroy();
                     }, null, this);
 
@@ -412,14 +412,13 @@ class Play extends Phaser.Scene {
     resetPlayer() {
         this.camera.startFollow(this.player);
 
-
         // Adds Collisions to Walls & Enemies
-        this.physics.add.collider(this.player, this.wallsLayer); 
+        //this.physics.add.collider(this.player, this.wallsLayer); 
         this.physics.add.collider(this.enemies, this.wallsLayer);
         for (let enemy of this.enemies.getChildren()) {
             this.physics.add.collider(this.player, enemy, () => {
                 this.player.collideWithEnemy(enemy);
-                this.HP.lowerHP(2);
+                this.HP.lowerHP(1);
             }, null, this);
         }
 

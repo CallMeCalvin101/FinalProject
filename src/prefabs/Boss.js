@@ -53,13 +53,13 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.speed = 64
         this.body.setVelocity(0,this.speed)
 
-        this.dir = Math.floor(Math.random() * 3)
+        this.dir = Math.floor(Math.random() * 4)
         switch(this.dir){
             case 0:
                 this.body.setVelocity(0,-this.speed) // Up
                 this.anims.play('bossUp')
                 break
-            case 0:
+            case 1:
                 this.body.setVelocity(-this.speed,0) //Left
                 this.anims.play('bossLeft')
                 break
@@ -67,7 +67,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
                 this.body.setVelocity(0,this.speed) //Down
                 this.anims.play('bossDown')
                 break
-            case 1:
+            case 3:
                 this.body.setVelocity(this.speed,0) //Right
                 this.anims.play('bossRight')
                 break
@@ -80,27 +80,22 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         const enemyBlocked = this.body.blocked
         const enemyTouched = this.body.touching
         if(enemyBlocked.down || enemyBlocked.up || enemyBlocked.left || enemyBlocked.right || enemyTouched.down || enemyTouched.up || enemyTouched.right || enemyTouched.up){
-            //console.log(enemyBlocked);
-            let possibleDirections = []
-            for (const direction in enemyBlocked || enemyTouched){
-                possibleDirections.push(direction)
-            }
-            //console.log(possibleDirections);
-            const newDirection = possibleDirections [Math.floor(Math.random()*4)]
-            switch(newDirection){
-                case 'up':
+            this.dir += 1;
+            if (this.dir >= 4) {this.dir = 0;}
+            switch(this.dir){
+                case 0:
                     this.body.setVelocity(0,-this.speed) // Up
                     this.anims.play('bossUp')
                     break
-                case 'left':
+                case 1:
                     this.body.setVelocity(-this.speed,0) //Left
                     this.anims.play('bossLeft')
                     break
-                case 'down':
+                case 2:
                     this.body.setVelocity(0,this.speed) //Down
                     this.anims.play('bossDown')
                     break
-                case 'right':
+                case 3:
                     this.body.setVelocity(this.speed,0) //Right
                     this.anims.play('bossRight')
                     break
