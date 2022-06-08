@@ -59,14 +59,5 @@ class Credit extends Phaser.Scene {
             delay: 1000,
             onCompleteScope: this
         });
-        
-
-
-
-        
-
-       
     }
-
-
 }

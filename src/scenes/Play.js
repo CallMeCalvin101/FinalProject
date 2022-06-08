@@ -49,22 +49,15 @@ class Play extends Phaser.Scene {
 
         //debug the wall to see if it happen 
         const debugGraphics = this.add.graphics().setAlpha(0.75);
-        // this.wallsLayer.renderDebug(debugGraphics, {
-        //     tileColor: null, // Color of non-colliding tiles
-        //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        // });
         
         // create player
         const newplayer = map.findObject("Objects", obj => obj.name === "Spawn");
         this.player = new Player(this, newplayer.x, newplayer.y);
 
-        //this.player = new PlayerSword(this, newplayer.x, newplayer.y);
 
-        //this.player = new Player(this, 1119, 1187, "player-head"); //for starting player head right at body upgrade
         this.dummy = this.physics.add.sprite(this.player.x, this.player.y, 'teleport').setOrigin(0.07,0.45);
         this.dummy.setAlpha(0);
-        // dummy.body.setCollideWorldBounds(true);
+
         //create Enemy
         this.enemies = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
@@ -72,14 +65,11 @@ class Play extends Phaser.Scene {
         
         let newEnemy1 = map.filterObjects("Objects", obj => obj.name === "EnemySpawn");
         newEnemy1.map((tile) => {
-            this.enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
-            this.enemies.add(this.enemy);
+            let enemy = new PatrolEnemy(this, tile.x,tile.y, 'enemy1')
+            enemy.setScale(0.75, 0.75);
+            this.enemies.add(enemy);
         });
-        this.enemies.children.iterate((child) => {
-            child.setScale(0.75, 0.75);
-          });
-        //const newEnemy2 = map.findObject("Objects", obj => obj.name === "Enemy1");
-        //this.enemy = new BasicEnemy(this, newEnemy2.x,newEnemy2.y,'newenemy');
+
 
         this.particleManager = this.add.particles('cross');
         this.emitterconfig = 
@@ -113,16 +103,6 @@ class Play extends Phaser.Scene {
         }
         this.robotEmitter = this.add.particles('particleblue').createEmitter(this.robotEmitConfig);
         this.robotEmitter.pause();
-
-        
-       // const newEnemy2 = map.findObject("Objects", obj => obj.type === "Enemy");
-       // this.enemies = this.add.group();
-        //for (let i = 0; i < 4; i++){
-        //    const e = new PatrolEnemy(this, newEnemy2.x, newEemy2.y, 'enemy1');
-         //   this.enemies.add(e)
-        //}
-        
-        //this.player = new PlayerSword(this, 200, 200);
          
 
         //player anims
@@ -235,12 +215,6 @@ class Play extends Phaser.Scene {
         gamePointer = this.input.activePointer;
 
 
-        // Temp Background
-        //this.add.rectangle(0, 0, game.config.width, game.config.height, 0xf2f2f2).setOrigin(0);
-        //const p1Spawn = map.findObject("Objects", obj => obj.name === "Spawn");
-        //this.p1 = this.physics.add.sprite(p1Spawn.x, p1Spawn.y, "robot", 450);
-        //this.player = new Player(this, game.config.width * 1/4, game.config.height/2);
-
 
         // Adds group to store all upgrades
         this.upgradeGroup = this.add.group({
@@ -250,6 +224,10 @@ class Play extends Phaser.Scene {
         const newbody = map.findObject("Objects", obj => obj.name === "Body");
         this.upgradeBody = new Upgrade(this, newbody.x, newbody.y, 'upgrade:body', "body");
         this.upgradeGroup.add(this.upgradeBody);
+
+        const newsword = map.findObject("Objects", obj => obj.name === "sword1");
+        this.upgradeSword = new Upgrade(this, newsword.x, newsword.y, 'upgrade:sword', "sword");
+        this.upgradeGroup.add(this.upgradeSword);
 
 
         //turret
@@ -268,10 +246,6 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         });
         
-        
-        this.upgradeSword = new Upgrade(this, 500, 500, 'upgrade:sword', "sword");
-        
-        this.upgradeGroup.add(this.upgradeSword);
 
         // Player Attack Handeling
         this.playerAttacks = this.add.group({
@@ -326,8 +300,6 @@ class Play extends Phaser.Scene {
 
         this.HP = new HpUi(this);
 
-        //enemy
-        // this.e1 = new Enemies(this, 'enemyhead', 3, true);
 
         this.obstacleGroup = this.add.group({
             runChildUpdate: true            // make sure update runs on group children
@@ -358,7 +330,6 @@ class Play extends Phaser.Scene {
         }
 
         this.player.update();
-        this.enemy.update();
 
         for (let turret of this.turrets.getChildren()) {
             if (Phaser.Math.Distance.Between(this.player.x, this.player.y, turret.x, turret.y) < turret.range) {

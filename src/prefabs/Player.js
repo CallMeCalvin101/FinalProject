@@ -15,7 +15,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.attackDuration = 0;
         this.attackDuration_MAX = 50;
         this.setBounce(0.5);
-        //this.body.setCollideWorldBounds(true);
         this.setDamping(true);
         this.isupright = true;
         this.isteleport = false; //teleport state - animation depends on this property

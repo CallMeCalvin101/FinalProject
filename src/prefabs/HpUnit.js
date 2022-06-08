@@ -14,12 +14,10 @@ class HpUnit extends Phaser.Physics.Arcade.Sprite {
     
     removeHeart() {
         this.play('healthgone',true); 
-        //this.setAlpha(0);
     }
 
     gainHeart() {
         this.play('healthon',true);
         this.play('healthblink',true);
-        this.setAlpha(1);
     }
 }
