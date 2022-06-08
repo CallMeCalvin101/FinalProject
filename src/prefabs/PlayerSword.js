@@ -101,7 +101,7 @@ class PlayerSword extends Player {
             let swordCenterX = this.dirX * this.swordOffset * Math.cos(curAngle);
             let swordCenterY = (-1) * this.dirX * this.swordOffset * Math.sin(curAngle);
             curAngle += dTheta;
-            let attack = new Hitbox(this.scene, this.x + swordCenterX, this.y + swordCenterY, "sword-hitbox", this.hitboxDur);
+            let attack = new SwordAttack(this.scene, this.x + swordCenterX, this.y + swordCenterY, "sword-hitbox", this.hitboxDur);
             hitbox.add(attack);
         }
     }

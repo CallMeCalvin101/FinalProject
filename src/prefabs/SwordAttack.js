@@ -1,9 +1,10 @@
-class Hitbox extends Phaser.Physics.Arcade.Sprite {
+class SwordAttack extends Hitbox {
     constructor(scene, x, y, texture, duration = 0, speed = 0, directionX = 0, directionY = 0) {
         super(scene, x, y, texture);
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable(true);
+        this.play('hitb');
         this.fade = true;
         if (duration == 0) {
             this.fade = false;
@@ -22,17 +23,6 @@ class Hitbox extends Phaser.Physics.Arcade.Sprite {
             let angle = Math.atan(directionY/directionX);
             this.setVelocityX(dirX * this.speed * Math.cos(angle));
             this.setVelocityY((-1) * dirX * this.speed * Math.sin(angle));
-        }
-    }
-
-    update() {
-        // Controls Hitbox Lingering Logic
-        if (this.fade == true && this.duration > 0) {
-            this.duration -= 1;
-        }
-
-        if (this.fade == true && this.duration <= 0) {
-            this.destroy();
         }
     }
 }
