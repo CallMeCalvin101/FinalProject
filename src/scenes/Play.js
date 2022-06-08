@@ -414,7 +414,7 @@ class Play extends Phaser.Scene {
 
 
         // Adds Collisions to Walls & Enemies
-        // this.physics.add.collider(this.player, this.wallsLayer); 
+        this.physics.add.collider(this.player, this.wallsLayer); 
         this.physics.add.collider(this.enemies, this.wallsLayer);
         for (let enemy of this.enemies.getChildren()) {
             this.physics.add.collider(this.player, enemy, () => {
