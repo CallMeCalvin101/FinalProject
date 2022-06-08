@@ -3,7 +3,7 @@ class PlayerSword extends Player {
         super(scene, x, y, 'player-body');
         scene.add.existing(this);
         scene.physics.add.existing(this);
-
+        this.play('a-f');
         // Set Properties for Player
         this.alive = true;
         this.walkAcceleration = 900;
@@ -42,18 +42,18 @@ class PlayerSword extends Player {
 
         // Controls Player Movement
         if (keyW.isDown) {
-            this.play('frontjump');
+            this.play('a-f');
             this.setAccelerationY(-this.walkAcceleration);
         } else if (keyS.isDown) {
-            this.play('backjump');
+            this.play('a-b');
             this.setAccelerationY(this.walkAcceleration);
         }
 
         if (keyA.isDown) {
-            this.play('leftjump');
+            this.play('a-l');
             this.setAccelerationX(-this.walkAcceleration);
         } else if (keyD.isDown) {
-            this.play('rightjump');
+            this.play('a-r');
             this.setAccelerationX(this.walkAcceleration);
         }
 

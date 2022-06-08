@@ -11,6 +11,10 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('b-jump', './assets/player/back-ani.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('l-jump', './assets/player/s-l.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('r-jump', './assets/player/s-r.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('atk-f', './assets/player/atk-f.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('atk-b', './assets/player/atk-b.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('atk-l', './assets/player/atk-l.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('atk-r', './assets/player/atk-r.png', {frameWidth: 50, frameHeight: 80, startFrame: 0, endFrame: 5}); 
         
         this.load.spritesheet('health-blink', './assets/health/health-blink.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 5}); 
         this.load.spritesheet('health-gone', './assets/health/health-gone.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 4});
@@ -157,6 +161,30 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'rightjump',
             frames: this.anims.generateFrameNumbers('r-jump', {start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'a-f',
+            frames: this.anims.generateFrameNumbers('atk-f', {start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'a-b',
+            frames: this.anims.generateFrameNumbers('atk-b', {start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'a-l',
+            frames: this.anims.generateFrameNumbers('atk-l', {start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'a-r',
+            frames: this.anims.generateFrameNumbers('atk-r', {start: 0, end: 5, first: 0}),
             frameRate: 12,
             repeat: -1
         });

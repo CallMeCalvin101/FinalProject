@@ -3,7 +3,7 @@ class PlayerBody extends Player {
         super(scene, x, y, 'player-body');
         scene.add.existing(this);
         scene.physics.add.existing(this);
-
+        this.play('frontjump');
         // Set Properties
         this.alive = true;
         this.walkAcceleration = 900;
@@ -36,7 +36,7 @@ class PlayerBody extends Player {
 
         // Controls Player Movement
         if (keyW.isDown) {
-            this.play('frontjump');
+            this.play('backjump');
             this.setAccelerationY(-this.walkAcceleration);
         } else if (keyS.isDown) {
             this.play('frontjump');
