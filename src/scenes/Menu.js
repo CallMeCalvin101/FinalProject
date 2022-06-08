@@ -4,6 +4,9 @@ class Menu extends Phaser.Scene {
     }
 
     preload(){
+        this.load.image('the', './assets/the.png');
+        this.load.image('credit1', './assets/credit1.png');
+        this.load.image('credit2', './assets/credit2.png');
         this.load.image('rb1', './assets/rb1.png');
         this.load.image('rb2', './assets/rb2.png');
         this.load.image('bt1', './assets/bt1.png');
@@ -44,21 +47,35 @@ class Menu extends Phaser.Scene {
 
         gamePointer = this.input.activePointer;
 
+        this.the = this.add.sprite(game.config.width/2+300, 85, 'the').setOrigin(0.5).setScale(0.19);
+
         this.title = this.add.sprite(game.config.width/2+300, 190, 'titletext1').setOrigin(0.5).setScale(0.0);
-        this.title.setInteractive();
+        this.title2 = this.add.sprite(game.config.width/2+300, 190, 'titletext2').setOrigin(0.5).setScale(0.3).setAlpha(0.0);
         this.blackscreen = this.add.sprite(0, 0, 'black').setOrigin(0,0)
 
         this.nextButton = this.add.sprite(game.config.width/2+300, 490, 'bt1').setOrigin(0.5).setScale(0.0);
+        this.creditButton = this.add.sprite(game.config.width/2+300, 290, 'credit1').setOrigin(0.5).setScale(0.0);
+        this.creditButton.setInteractive();
         this.nextButton.setInteractive();
 
 
         //set funcitons to run for hovering over/clicking button
+        this.creditButton.on('pointerover', () => {
+            this.creditButton.setTexture('credit2')
+        });
+
+        this.creditButton.on('pointerout', () => {
+            this.creditButton.setTexture('credit1')
+        });
+
         this.nextButton.on('pointerover', () => {
             this.nextButton.setTexture('bt2')
         });
         this.nextButton.on('pointerout', () => {
             this.nextButton.setTexture('bt1')
         });
+        this.creditButton.on('pointerdown', () => {
+            this.scene.start('creditScene')});
         
         this.nextButton.on('pointerdown', () => {
             this.sound.play('hit');
@@ -82,12 +99,12 @@ class Menu extends Phaser.Scene {
         let startTween = this.tweens.add({
             targets: this.nextButton,
             alpha: { from: 0, to: 1 },
-            scale: { from: 0.1, to: 0.3 },
+            scale: { from: 0.1, to: 0.2 },
             ease: 'Sine.easeInOut',
-            duration: 2000,
+            duration: 1000,
             repeat: 0,
             hold: -1,
-            delay: 1000,
+            delay: 1600,
             onCompleteScope: this
         });
 
@@ -100,6 +117,29 @@ class Menu extends Phaser.Scene {
             repeat: 0,
             hold: -1,
             delay: 100,
+            onCompleteScope: this
+        });
+
+        let title2Tween = this.tweens.add({
+            targets: this.title2,
+            alpha: { from: 0, to: 1 },
+            ease: 'Sine.easeInOut',
+            duration: 1000,
+            yoyo: true,
+            repeat: -1,
+            delay: 2200,
+            onCompleteScope: this
+        });
+
+        let creditTween = this.tweens.add({
+            targets: this.creditButton,
+            alpha: { from: 0, to: 1 },
+            scale: { from: 0.0, to: 0.15 },
+            ease: 'Sine.easeInOut',
+            duration: 1000,
+            repeat: 0,
+            hold: -1,
+            delay: 2500,
             onCompleteScope: this
         });
 
