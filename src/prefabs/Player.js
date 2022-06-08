@@ -90,9 +90,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if (keyA.isDown) {
             this.setAccelerationX(-this.walkAcceleration);
             this.setRotation(this.rotation - (5.5*(Math.PI/180)));
-
-
-        } else if (keyD.isDown) {
+        } 
+        else if (keyD.isDown) {
+            console.log(this.x)
+            if(this.x>970){this.scene.fromEmitter.setAlpha(1)} 
+            //setAlpha to 1, after it is hidden at start (to hide initial explode method call on teleport emitter)
             this.setAccelerationX(this.walkAcceleration);
             this.setRotation(this.rotation + (5.5*(Math.PI/180)));
         }

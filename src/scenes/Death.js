@@ -56,7 +56,7 @@ class Death extends Phaser.Scene {
         
         this.re = this.add.sprite(350, game.config.height/3, 're1').setOrigin(0.5).setScale(0.0);
         this.re.setInteractive();
-        this.cr = this.add.sprite(350, game.config.height*2/3, 'c1').setOrigin(0.5).setScale(0.0);
+        this.cr = this.add.sprite(350, game.config.height*2/3, 'credit1').setOrigin(0.5).setScale(0.0);
         this.cr.setInteractive();
 
         //set funcitons to run for hovering over/clicking button
@@ -73,10 +73,10 @@ class Death extends Phaser.Scene {
 
 
         this.cr.on('pointerover', () => {
-            this.cr.setTexture('c2')
+            this.cr.setTexture('credit2')
         });
         this.cr.on('pointerout', () => {
-            this.cr.setTexture('c1')
+            this.cr.setTexture('credit1')
         });
         
         this.cr.on('pointerdown', () => {            
@@ -97,7 +97,7 @@ class Death extends Phaser.Scene {
         let crTween= this.tweens.add({
             targets: this.cr,
             alpha: { from: 0, to: 1 },
-            scale: { from: 0.1, to: 0.3 },
+            scale: { from: 0.1, to: 0.2 },
             ease: 'Sine.easeInOut',
             duration: 2000,
             repeat: 0,

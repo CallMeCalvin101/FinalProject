@@ -20,7 +20,6 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('health-gone', './assets/health/health-gone.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 4});
         this.load.spritesheet('health-on', './assets/health/health-on.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 3});
         this.load.spritesheet('hit', './assets/b8.png', {frameWidth: 40, frameHeight: 40, startFrame: 0, endFrame: 3});       
-        this.load.audio('bg_music', './assets/bg_music.wav');
         this.load.audio('bg', './assets/bg.mp3');
         this.load.audio('fizz', './assets/fizz.mp3');
         this.load.audio('softbell', './assets/softbell.mp3');
@@ -42,10 +41,6 @@ class Play extends Phaser.Scene {
         this.tprightlayer = map.createLayer("tpright", tileset);
         this.wallsLayer.setCollisionByProperty({collides: true });
         this.aboveLayer.setDepth(10);
-         
-        //this.bg_music = this.sound.add('bg_music', {mute: false, volume: 0.2, rate: 1.2, loop: true});
-        //this.bg_music.play();
-
 
         //debug the wall to see if it happen 
         const debugGraphics = this.add.graphics().setAlpha(0.75);
@@ -78,7 +73,7 @@ class Play extends Phaser.Scene {
             this.enemies.add(this.boss);
         });
 
-        this.particleManager = this.add.particles('cross');
+        this.particleManager = this.add.particles('particlepurple');
         this.emitterconfig = 
         { 
             x: this.player.x,
@@ -90,7 +85,10 @@ class Play extends Phaser.Scene {
             // higher steps value = more time to go btwn min/max
             lifespan: { min: 10, max: 7000, steps: 500 }}
         this.fromEmitter = this.particleManager.createEmitter(this.emitterconfig);
+        this.fromEmitter.setAlpha(0);
         this.fromEmitter.explode();
+
+
 
         // var angleConfig = {min: 83, max: 97};
         // var speedConfig = {min: 0, max: 110};
@@ -396,8 +394,8 @@ class Play extends Phaser.Scene {
             this.sound.play('upgrade');
         } else if (elem.getType() == 'sword') {
             // play attack insturction on the ground, but something went wrong. 
-            // sprite key 'm1', animation key 'mouse'
-            //this.mouse = this.add.sprite(this,this.spawnX,this.spawnY,'m1');
+            // sprite key 'mouse', animation key 'mouse'
+            //this.mouse = this.add.sprite(this,this.spawnX,this.spawnY,'mouse');
             //this.mouse.play('mouse',true);
             //
             this.player.destroy();
