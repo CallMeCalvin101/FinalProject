@@ -1,7 +1,6 @@
 class Menu extends Phaser.Scene {
     constructor() {
         super('menuScene');
-        
     }
 
     preload(){
@@ -20,10 +19,6 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        //for developer use to skip menu
-        //this.scene.start('playScene');
-
-
         this.bgmusic = this.sound.add('bg', {
             mute: false,
             volume: 0.1,

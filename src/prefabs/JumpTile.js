@@ -11,17 +11,11 @@ class JumpTile extends Phaser.Physics.Arcade.Sprite {
         this.distance = 7 * 32;
     }
 
-    create(){
-        // let dummy = this.physics.add.sprite(this.x, this,y);
-        // dummy.body.setCollideWorldBounds(true);
-        
-    }
     returnDirection(){
         return this.direction;
     }
     jump(player) {
         this.scene.sound.play('fizz', {volume:0.05})
-        // console.log(this.scene.player.x);
         this.newX = this.x;
         this.newY = this.y;
 

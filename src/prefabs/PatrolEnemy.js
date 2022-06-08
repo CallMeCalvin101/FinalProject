@@ -5,7 +5,6 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add to physics system
-        //this.setVelocityX(velocity);   
         this.setImmovable();     
         // this.allowGravity = false;        
         
@@ -73,10 +72,9 @@ class PatrolEnemy extends Phaser.Physics.Arcade.Sprite {
         const enemyBlocked = this.body.blocked
         const enemyTouched = this.body.touching
         if(enemyBlocked.down || enemyBlocked.up || enemyBlocked.left || enemyBlocked.right || enemyTouched.down || enemyTouched.up || enemyTouched.right || enemyTouched.up){
-            //console.log(enemyBlocked);
             this.dir += 1;
             if (this.dir >= 4) {this.dir = 0;}
-            
+
             switch(this.dir){
                 case 0:
                     this.body.setVelocity(0,-this.speed) // Up
